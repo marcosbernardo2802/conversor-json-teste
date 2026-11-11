@@ -1,0 +1,574 @@
+{
+  "zoom_animation": {
+    "resource_id": "6759078592740594184",
+    "name": "Zoom 1",
+    "category_id": "7039",
+    "category_name": "Combinação"
+  },
+  "quicar_animation": {
+    "resource_id": "6795425591014199822",
+    "name": "Quicar 1",
+    "category_id": "7039",
+    "category_name": "Combinação"
+  },
+  "transition": {
+    "resource_id": "6724239388189921806",
+    "name": "Esmaecimento preto",
+    "category_id": "100000"
+  },
+  "vhs_video_effect_template": {
+    "adjust_params": [
+      {
+        "default_value": 0.33333333333333,
+        "name": "effects_adjust_speed",
+        "value": 0.15
+      },
+      {
+        "default_value": 0.5,
+        "name": "effects_adjust_background_animation",
+        "value": 0.22
+      }
+    ],
+    "algorithm_artifact_path": "",
+    "apply_target_type": 2,
+    "apply_time_range": null,
+    "bind_segment_id": "",
+    "category_id": "100000",
+    "category_name": "Efeitos de vídeo",
+    "common_keyframes": [],
+    "covering_relation_change": 0,
+    "disable_effect_faces": [],
+    "effect_id": "7618619632592620805",
+    "effect_mask": [],
+    "enable_mask": true,
+    "formula_id": "",
+    "id": "512A9861-121D-44c2-9ED0-C8F6E85679BD",
+    "item_effect_type": 0,
+    "name": "Cintilação retrô",
+    "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7618619632592620805/56200f1387da9f304142724060c655aa",
+    "platform": "all",
+    "render_index": 0,
+    "request_id": "",
+    "resource_id": "7618619632592620805",
+    "source_platform": 1,
+    "sub_type": 0,
+    "time_range": null,
+    "track_render_index": 0,
+    "transparent_params": "",
+    "type": "video_effect",
+    "value": 1.0,
+    "version": ""
+  },
+  "watermark": {
+    "text_material_template": {
+      "add_type": 0,
+      "alignment": 1,
+      "background_alpha": 1.0,
+      "background_color": "",
+      "background_fill": "",
+      "background_height": 0.14,
+      "background_horizontal_offset": 0.0,
+      "background_round_radius": 0.0,
+      "background_style": 0,
+      "background_vertical_offset": 0.0,
+      "background_width": 0.14,
+      "base_content": "",
+      "bold_width": 0.008,
+      "border_alpha": 0.0,
+      "border_color": "",
+      "border_width": 0.0,
+      "caption_template_info": {
+        "category_id": "",
+        "category_name": "",
+        "effect_id": "",
+        "is_new": false,
+        "path": "",
+        "request_id": "",
+        "resource_id": "",
+        "resource_name": "",
+        "source_platform": 0,
+        "third_resource_id": ""
+      },
+      "check_flag": 47,
+      "combo_info": {
+        "text_templates": []
+      },
+      "content": "{\"text\":\"Crônicas Estelares\",\"styles\":[{\"fill\":{\"content\":{\"render_type\":\"solid\",\"solid\":{\"color\":[1,1,1]}}},\"font\":{\"path\":\"C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7041170228356583937/2e29412e83f18d1d2fdba0a292d2397f/ethnocentric rg.ttf\",\"id\":\"7041170228356583937\"},\"size\":15,\"effectStyle\":{\"path\":\"C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7528812442080611637/a469219d77881de782ed4a6f6a21d1e1\",\"id\":\"7528812442080611637\"},\"range\":[0,18]}]}",
+      "current_words": {
+        "end_time": [],
+        "start_time": [],
+        "text": []
+      },
+      "cutoff_postfix": "",
+      "fixed_height": -1.0,
+      "fixed_width": -1.0,
+      "font_category_id": "",
+      "font_category_name": "",
+      "font_id": "",
+      "font_name": "",
+      "font_path": "",
+      "font_resource_id": "",
+      "font_size": 15.0,
+      "font_source_platform": 0,
+      "font_team_id": "",
+      "font_third_resource_id": "",
+      "font_title": "none",
+      "font_url": "",
+      "fonts": [
+        {
+          "category_id": "",
+          "category_name": "",
+          "effect_id": "",
+          "file_uri": "",
+          "id": "400A087B-8ECD-4806-AD8C-1303758CF0B7",
+          "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7041170228356583937/2e29412e83f18d1d2fdba0a292d2397f/ethnocentric rg.ttf",
+          "request_id": "",
+          "resource_id": "7041170228356583937",
+          "source_platform": 1,
+          "team_id": "",
+          "third_resource_id": "",
+          "title": ""
+        }
+      ],
+      "force_apply_line_max_width": false,
+      "global_alpha": 1.0,
+      "group_id": "",
+      "has_shadow": false,
+      "id": "9175A382-04DA-41e6-AB4F-AE64FD4E4FEA",
+      "initial_scale": 1.0,
+      "inner_padding": -1.0,
+      "is_lyric_effect": false,
+      "is_rich_text": false,
+      "is_words_linear": false,
+      "italic_degree": 10,
+      "ktv_color": "",
+      "language": "",
+      "layer_weight": 1,
+      "letter_spacing": 0.05,
+      "line_feed": 1,
+      "line_max_width": 0.82,
+      "line_spacing": 0.02,
+      "lyric_group_id": "",
+      "lyrics_template": {
+        "category_id": "",
+        "category_name": "",
+        "effect_id": "",
+        "panel": "",
+        "path": "",
+        "request_id": "",
+        "resource_id": "",
+        "resource_name": ""
+      },
+      "multi_language_current": "none",
+      "name": "132CC41B-629F-4311-ABF5-EE559718C5D7",
+      "oneline_cutoff": false,
+      "operation_type": 0,
+      "original_size": [],
+      "preset_category": "",
+      "preset_category_id": "",
+      "preset_has_set_alignment": false,
+      "preset_id": "",
+      "preset_index": 0,
+      "preset_name": "",
+      "recognize_task_id": "",
+      "recognize_text": "",
+      "recognize_type": 0,
+      "relevance_segment": [],
+      "shadow_alpha": 0.0,
+      "shadow_angle": -45.0,
+      "shadow_color": "",
+      "shadow_distance": 5.0,
+      "shadow_point": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "shadow_smoothing": 0.0,
+      "shape_clip_x": false,
+      "shape_clip_y": false,
+      "source_from": "",
+      "ssml_content": "",
+      "style_name": "",
+      "sub_template_id": -1,
+      "sub_type": 0,
+      "subtitle_keywords": null,
+      "subtitle_keywords_config": null,
+      "subtitle_template_original_fontsize": 0.0,
+      "text_alpha": 1.0,
+      "text_color": "#ffffffff",
+      "text_curve": null,
+      "text_preset_resource_id": "",
+      "text_size": 30,
+      "text_to_audio_ids": [],
+      "translate_original_text": "",
+      "tts_auto_update": false,
+      "type": "text",
+      "typesetting": 0,
+      "underline": false,
+      "underline_offset": 0.22,
+      "underline_width": 0.05,
+      "use_effect_default_color": true,
+      "words": {
+        "end_time": [],
+        "start_time": [],
+        "text": []
+      }
+    },
+    "text_template_material_template": {
+      "ai_emoji_config": null,
+      "aigc_config": {
+        "font_item": {
+          "category_id": "",
+          "category_name": "",
+          "effect_id": "",
+          "file_uri": "",
+          "id": "32097F16-A35D-4554-9F4F-AEB048EB4265",
+          "path": "",
+          "request_id": "",
+          "resource_id": "",
+          "source_platform": 0,
+          "team_id": "",
+          "third_resource_id": "",
+          "title": ""
+        },
+        "model": "",
+        "prompt": "",
+        "seed": 0
+      },
+      "aigc_type": "none",
+      "category_id": "100001",
+      "category_name": "Modelo de texto",
+      "check_flag": 7,
+      "current_word_info": {
+        "end_time": 0,
+        "keyword_ranges": [],
+        "start_time": 0,
+        "text": "",
+        "words": []
+      },
+      "effect_id": "7528813049365515581",
+      "formula_id": "",
+      "id": "CACC4A56-A509-41a2-8AA1-42CFF06A1131",
+      "is_3d": false,
+      "is_ai_emoji": false,
+      "is_dynamic_build": false,
+      "is_lyric_effect": false,
+      "is_pre_rendered": false,
+      "is_uneven_animation": false,
+      "lyric_group_id": "",
+      "material_text_ranges": [],
+      "merge_content": "",
+      "name": "Simple Vlog EN - Blue Neon Tech",
+      "non_text_info_resources": [
+        {
+          "attach_info": {
+            "clip": {
+              "alpha": 1.0,
+              "flip": {
+                "horizontal": false,
+                "vertical": false
+              },
+              "rotation": 90.0,
+              "scale": {
+                "x": 1.3333333730697632,
+                "y": 1.3571428060531616
+              },
+              "transform": {
+                "x": 0.0,
+                "y": -62.332000732421875
+              }
+            },
+            "duration": 25036666,
+            "original_size_height": 280.0,
+            "original_size_width": 30.0,
+            "start_time": 863333
+          },
+          "emoji_sticker_info": {
+            "bind_name": "",
+            "hidden": false,
+            "is_center_horizontally": false,
+            "is_shift_to_left": false,
+            "is_shift_to_right": false,
+            "margin_end": "0px",
+            "margin_start": "0px",
+            "margin_vertical": "0px",
+            "position_type": 0,
+            "word_id_range": []
+          },
+          "extra_material_refs": [
+            "EB664D32-2D45-40e7-9877-B4ED5202E3EB"
+          ],
+          "name": "7CEB4B03-B1A0-4e7e-A00D-0927CE7ECDF4",
+          "shape_param": {
+            "points": [],
+            "shape_type": 0
+          },
+          "type": "sticker"
+        },
+        {
+          "attach_info": {
+            "clip": {
+              "alpha": 1.0,
+              "flip": {
+                "horizontal": false,
+                "vertical": false
+              },
+              "rotation": 90.0,
+              "scale": {
+                "x": 1.3333499431610107,
+                "y": 1.3571428060531616
+              },
+              "transform": {
+                "x": 0.0,
+                "y": 62.332000732421875
+              }
+            },
+            "duration": 25036666,
+            "original_size_height": 280.0,
+            "original_size_width": 30.0,
+            "start_time": 863333
+          },
+          "emoji_sticker_info": {
+            "bind_name": "",
+            "hidden": false,
+            "is_center_horizontally": false,
+            "is_shift_to_left": false,
+            "is_shift_to_right": false,
+            "margin_end": "0px",
+            "margin_start": "0px",
+            "margin_vertical": "0px",
+            "position_type": 0,
+            "word_id_range": []
+          },
+          "extra_material_refs": [
+            "5496D05C-DFB9-4bcf-97E5-CC59D590B059"
+          ],
+          "name": "BB3E37B4-AAF7-454f-BA1B-B45434802E09",
+          "shape_param": {
+            "points": [],
+            "shape_type": 0
+          },
+          "type": "sticker"
+        }
+      ],
+      "origin_word_info": {
+        "end_time": 0,
+        "keyword_ranges": [],
+        "start_time": 0,
+        "text": "",
+        "words": []
+      },
+      "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/artistEffect/7528813049365515581/7818f7eec16d01087642156b481a2cd7",
+      "platform": "all",
+      "request_id": "",
+      "resource_id": "7528813049365515581",
+      "resources": [
+        {
+          "panel": "default",
+          "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/artistEffect/7233771344784133382/622933a107d09b713f9f712ce237bfed",
+          "resource_id": "7233771344784133382",
+          "source_platform": 1
+        },
+        {
+          "panel": "sticker",
+          "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7428455170469580037/071cf853ef46c1a727b652f24569a921",
+          "resource_id": "7428455170469580037",
+          "source_platform": 1
+        },
+        {
+          "panel": "fonts",
+          "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7041170228356583937/2e29412e83f18d1d2fdba0a292d2397f/ethnocentric rg.ttf",
+          "resource_id": "7041170228356583937",
+          "source_platform": 1
+        },
+        {
+          "panel": "text",
+          "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/6779879712261935619/87deb51be366cd3e83fb4a04c6ea2240",
+          "resource_id": "6779879712261935619",
+          "source_platform": 1
+        },
+        {
+          "panel": "flower",
+          "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7528812442080611637/a469219d77881de782ed4a6f6a21d1e1",
+          "resource_id": "7528812442080611637",
+          "source_platform": 1
+        }
+      ],
+      "source_platform": 1,
+      "text_info_resources": [
+        {
+          "attach_info": {
+            "clip": {
+              "alpha": 1.0,
+              "flip": {
+                "horizontal": false,
+                "vertical": false
+              },
+              "rotation": 0.0,
+              "scale": {
+                "x": 1.1137179136276245,
+                "y": 1.1137179136276245
+              },
+              "transform": {
+                "x": 0.0,
+                "y": 0.0
+              }
+            },
+            "duration": 25900000,
+            "original_size_height": 91.6875,
+            "original_size_width": 1076.9375,
+            "start_time": 0
+          },
+          "capital": "",
+          "clip_type": "",
+          "extra_material_refs": [
+            "8A7E9320-DF5B-407e-B74C-5FAED7868808",
+            "AF899C00-A65D-402c-A1B5-8ED4D58A8BF0"
+          ],
+          "lyric_keyframes": [],
+          "order_in_layer": 0,
+          "text_material_id": "9175A382-04DA-41e6-AB4F-AE64FD4E4FEA",
+          "word_index": []
+        }
+      ],
+      "text_template_preset_resource_id": "",
+      "text_template_resource_type": "text_template",
+      "text_to_audio_ids": [],
+      "third_resource_id": "",
+      "type": "text_template",
+      "version": "1.0.0"
+    },
+    "text_effect_material_template": {
+      "adjust_params": [],
+      "algorithm_artifact_path": "",
+      "apply_target_type": 0,
+      "beauty_face_auto_preset_id": "",
+      "bloom_params": null,
+      "category_id": "",
+      "category_name": "",
+      "color_match_info": null,
+      "covering_relation_change": 0,
+      "effect_id": "",
+      "enable_skin_tone_correction": false,
+      "exclusion_group": [],
+      "face_adjust_params": [],
+      "formula_id": "",
+      "id": "8A7E9320-DF5B-407e-B74C-5FAED7868808",
+      "intensity_key": "",
+      "item_effect_type": 0,
+      "lumi_hub_path": "",
+      "multi_language_current": "",
+      "name": "",
+      "panel_id": "",
+      "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7528812442080611637/a469219d77881de782ed4a6f6a21d1e1",
+      "platform": "all",
+      "request_id": "",
+      "resource_id": "7528812442080611637",
+      "source_platform": 1,
+      "sub_type": "none",
+      "third_resource_id": "",
+      "time_range": null,
+      "type": "text_effect",
+      "value": 0.0,
+      "version": ""
+    },
+    "decorative_animations_templates": [
+      {
+        "animations": [
+          {
+            "anim_adjust_params": null,
+            "category_id": "",
+            "category_name": "",
+            "duration": 766665,
+            "id": "",
+            "material_type": "sticker",
+            "name": "",
+            "panel": "",
+            "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/6779879712261935619/87deb51be366cd3e83fb4a04c6ea2240",
+            "platform": "all",
+            "request_id": "",
+            "resource_id": "6779879712261935619",
+            "source_platform": 1,
+            "start": 0,
+            "third_resource_id": "",
+            "type": "in"
+          }
+        ],
+        "id": "AF899C00-A65D-402c-A1B5-8ED4D58A8BF0",
+        "multi_language_current": "none",
+        "type": "sticker_animation"
+      },
+      {
+        "animations": [
+          {
+            "anim_adjust_params": null,
+            "category_id": "",
+            "category_name": "",
+            "duration": 600000,
+            "id": "",
+            "material_type": "sticker",
+            "name": "",
+            "panel": "",
+            "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7428455170469580037/071cf853ef46c1a727b652f24569a921",
+            "platform": "all",
+            "request_id": "",
+            "resource_id": "7428455170469580037",
+            "source_platform": 1,
+            "start": 0,
+            "third_resource_id": "",
+            "type": "in"
+          }
+        ],
+        "id": "EB664D32-2D45-40e7-9877-B4ED5202E3EB",
+        "multi_language_current": "none",
+        "type": "sticker_animation"
+      },
+      {
+        "animations": [
+          {
+            "anim_adjust_params": null,
+            "category_id": "",
+            "category_name": "",
+            "duration": 600000,
+            "id": "",
+            "material_type": "sticker",
+            "name": "",
+            "panel": "",
+            "path": "C:/Users/marco/AppData/Local/CapCut/User Data/Cache/effect/7428455170469580037/071cf853ef46c1a727b652f24569a921",
+            "platform": "all",
+            "request_id": "",
+            "resource_id": "7428455170469580037",
+            "source_platform": 1,
+            "start": 0,
+            "third_resource_id": "",
+            "type": "in"
+          }
+        ],
+        "id": "5496D05C-DFB9-4bcf-97E5-CC59D590B059",
+        "multi_language_current": "none",
+        "type": "sticker_animation"
+      }
+    ],
+    "segment_clip": {
+      "alpha": 1.0,
+      "flip": {
+        "horizontal": false,
+        "vertical": false
+      },
+      "rotation": 0.0,
+      "scale": {
+        "x": 0.11,
+        "y": 0.11
+      },
+      "transform": {
+        "x": -0.8167576413673124,
+        "y": 0.9549669091028111
+      }
+    },
+    "extra_refs_order": [
+      "anim0",
+      "text_effect",
+      "anim1",
+      "anim2"
+    ]
+  }
+}
