@@ -1,0 +1,22 @@
+{
+  "json_path": "C:\\Users\\marco\\Desktop\\Nova pasta\\projeto_cronicas (1).json",
+  "media_folder": "C:\\Users\\marco\\Desktop\\Nova pasta",
+  "proj_name": "novoteste-video",
+  "drafts_dir": "C:\\Users\\marco\\AppData\\Local\\CapCut\\User Data\\Projects\\com.lveditor.draft",
+  "resolution": "1920x1080",
+  "fps": "24",
+  "img_ext": "jpg",
+  "audio_files": [
+    {
+      "name": "audio.MP3",
+      "volume": 1
+    }
+  ],
+  "apply_zoom": true,
+  "apply_transition": true,
+  "apply_vhs": true,
+  "apply_watermark": true,
+  "zoom_threshold": 11,
+  "transition_dur": 0.9,
+  "watermark_text": "Crônicas Estelares"
+}
