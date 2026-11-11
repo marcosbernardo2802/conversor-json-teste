@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Manual do Usuário — Conversor CapCut 4.2</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm 18mm 16mm;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    font-size: 10pt;
+    line-height: 1.55;
+  }
+
+  /* Capa */
+  .cover-page {
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  .cover-badge {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    color: white;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 10.5pt;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    display: inline-block;
+  }
+
+  .cover-title {
+    font-size: 32pt;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .cover-title span {
+    color: #0284c7;
+  }
+
+  .cover-subtitle {
+    font-size: 13pt;
+    color: #64748b;
+    max-width: 580px;
+    margin-bottom: 35px;
+    font-weight: 400;
+  }
+
+  .cover-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 22px;
+    max-width: 500px;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 40px;
+  }
+
+  .cover-card-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 10.5pt;
+  }
+  .cover-card-item:last-child { margin-bottom: 0; }
+  .cover-card-icon { font-size: 18pt; line-height: 1; flex-shrink: 0; }
+
+  .cover-meta {
+    font-size: 9pt;
+    color: #94a3b8;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 15px;
+    max-width: 400px;
+  }
+
+  /* Páginas de Conteúdo */
+  .page {
+    page-break-after: always;
+    padding-top: 5px;
+  }
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  h1 {
+    font-size: 18pt;
+    font-weight: 800;
+    color: #0f172a;
+    border-bottom: 2.5px solid #0284c7;
+    padding-bottom: 6px;
+    margin-top: 0;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    border-left: 4px solid #0284c7;
+    padding-left: 9px;
+  }
+
+  h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #334155;
+    margin-top: 12px;
+    margin-bottom: 5px;
+  }
+
+  p {
+    margin-bottom: 10px;
+    text-align: justify;
+  }
+
+  ul, ol {
+    margin-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  li {
+    margin-bottom: 5px;
+  }
+
+  /* Callouts */
+  .callout {
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 9.5pt;
+    border-left: 4px solid;
+    page-break-inside: avoid;
+  }
+
+  .callout-info {
+    background: #f0f9ff;
+    border-color: #0284c7;
+    color: #0369a1;
+  }
+
+  .callout-tip {
+    background: #f0fdf4;
+    border-color: #16a34a;
+    color: #15803d;
+  }
+
+  .callout-warn {
+    background: #fffbeb;
+    border-color: #d97706;
+    color: #b45309;
+  }
+
+  .callout-title {
+    font-weight: 700;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Tabelas */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    padding: 7px 10px;
+    border: 1px solid #cbd5e1;
+    text-align: left;
+  }
+
+  th {
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  /* Cards e Steps */
+  .step-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 11px 14px;
+    margin-bottom: 10px;
+    page-break-inside: avoid;
+  }
+
+  .step-head {
+    font-weight: 700;
+    color: #0284c7;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+
+  .step-num {
+    background: #0284c7;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8.5pt;
+    font-weight: 800;
+  }
+
+  code {
+    background: #f1f5f9;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: Consolas, monospace;
+    font-size: 8.5pt;
+    color: #0f172a;
+  }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover-page">
+  <div class="cover-badge">Manual Oficial de Operação</div>
+  <div class="cover-title">Conversor CapCut <span>4.2</span></div>
+  <div class="cover-subtitle">Guia Completo de Operação: Automação de Timeline, Vídeos, Efeitos e Compactação de Áudios TTS</div>
+
+  <div class="cover-card">
+    <div class="cover-card-item">
+      <div class="cover-card-icon">🎬</div>
+      <div><b>Conversor de Timeline:</b> Criação automatizada de projetos nativos para imagens estáticas e vídeos MP4, com enquadramento e efeitos.</div>
+    </div>
+    <div class="cover-card-item">
+      <div class="cover-card-icon">🎙️</div>
+      <div><b>Compactador TTS:</b> Encadeamento automático de falas na timeline, corte de silêncio (trim), micro-fade anti-estalo e sincronização de legendas.</div>
+    </div>
+    <div class="cover-card-item">
+      <div class="cover-card-icon">🎵</div>
+      <div><b>Extrair &amp; Juntar Áudio:</b> Extração ultra-rápida de áudio de vídeos .MP4 ou costura de falas TTS direto da fonte para .MP3 (até 320k) e .WAV lossless.</div>
+    </div>
+    <div class="cover-card-item">
+      <div class="cover-card-icon">⚡</div>
+      <div><b>Produtividade Ágil:</b> Arrastar &amp; Soltar (Drag &amp; Drop), auto-preenchimento inteligente de mídias e botão direto "🚀 Abrir CapCut".</div>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    Desenvolvido para Crônicas Estelares &amp; Criadores de Conteúdo • Versão 4.2 • 2026
+  </div>
+</div>
+
+<!-- PÁGINA 1: VISÃO GERAL E INICIALIZAÇÃO -->
+<div class="page">
+  <h1>1. Visão Geral e Inicialização</h1>
+  
+  <p>
+    O <b>Conversor CapCut 4.2</b> é um software de produtividade desenvolvido para eliminar o trabalho manual repetitivo na montagem de vídeos. Ele se conecta diretamente à estrutura interna de arquivos do <b>CapCut Desktop</b> (localizados na pasta <code>AppData\Local\CapCut\...</code>), criando ou modificando projetos instantaneamente.
+  </p>
+
+  <h2>Como Iniciar o Aplicativo</h2>
+  <div class="step-box">
+    <div class="step-head"><span class="step-num">1</span> Método Recomendado (Duplo Clique)</div>
+    <p>Na pasta do aplicativo, dê um duplo clique no arquivo <b><code>Iniciar Conversor.bat</code></b>. Ele inicializa o ambiente Python correto, ajusta as permissões necessárias e abre a janela do aplicativo imediatamente.</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-head"><span class="step-num">2</span> Método Alternativo via Script Python</div>
+    <p>Você também pode abrir dando dois cliques em <b><code>converter_gui.py</code></b> ou executando no terminal:</p>
+    <code>python converter_gui.py</code>
+  </div>
+
+  <h2>Navegação Superior por Abas &amp; Recursos Globais</h2>
+  <p>
+    No topo da janela você encontra botões em destaque para alternar entre os módulos e comandos rápidos:
+  </p>
+  <ul>
+    <li><b>🎬 Conversor de Timeline:</b> Transforma um roteiro JSON e sua pasta de mídias em um projeto novo e pronto do CapCut.</li>
+    <li><b>🎙️ Juntar Áudios TTS:</b> Otimiza projetos existentes no CapCut, colando narrações de TTS espaçadas e mantendo as legendas alinhadas.</li>
+    <li><b>🎵 Extrair &amp; Juntar Áudio:</b> Converte vídeos .MP4 para áudio ou junta todas as falas TTS da pasta textReading em um arquivo único .MP3 (até 320 kbps) ou .WAV lossless.</li>
+    <li><b>🚀 Abrir CapCut:</b> Botão direto no topo para abrir o CapCut Desktop com apenas 1 clique logo após gerar o draft ou compactar áudios.</li>
+    <li><b>📂 Arrastar e Soltar (Drag &amp; Drop):</b> Arraste qualquer arquivo <code>.json</code>, pasta de fotos/vídeos ou rascunho de fora direto para dentro do app.</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">💡 Dica: Tema Claro / Escuro</div>
+    No canto superior direito há o botão <b>☀️ Tema Claro / 🌙 Tema Escuro</b>. O aplicativo salva a sua escolha automaticamente, garantindo conforto visual nas suas sessões de edição.
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">🛡️ Resiliência e Segurança</div>
+    Se faltar alguma biblioteca ou arquivo no sistema, o app exibe uma janela pop-up clara na tela informando a solução, em vez de fechar silenciosamente.
+  </div>
+</div>
+
+<!-- PÁGINA 2: CONVERSOR DE TIMELINE -->
+<div class="page">
+  <h1>2. Módulo 1 — Conversor de Timeline</h1>
+  <p>
+    Permite converter arquivos de roteiro (formato JSON) gerados por sistemas de TTS ou roteirizadores automáticos em um rascunho completo do CapCut.
+  </p>
+
+  <h2>Painel: Arquivos do Projeto</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:28%;">Campo</th>
+        <th>Como Funciona e Instruções</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>JSON do Projeto</b></td>
+        <td>Arquivo <code>.json</code> contendo a lista de cortes (<code>clips</code>), durações de cada cena e referências de mídias. Use o botão <b>📂 Escolher</b>.</td>
+      </tr>
+      <tr>
+        <td><b>Pasta das Mídias</b></td>
+        <td>Diretório que armazena os arquivos físicos de imagem (<code>.jpg</code>, <code>.png</code>) ou vídeos (<code>.mp4</code>) que serão utilizados no projeto.</td>
+      </tr>
+      <tr>
+        <td><b>Nome do Projeto</b></td>
+        <td>Nome com o qual o rascunho será salvo. Esse é o nome que aparecerá no menu principal de projetos do CapCut.</td>
+      </tr>
+      <tr>
+        <td><b>Pasta de Drafts</b></td>
+        <td>Detectada automaticamente pelo app (<code>AppData\Local\CapCut\User Data\Projects\com.lveditor.draft</code>). Não precisa alterar a menos que você use um diretório customizado.</td>
+      </tr>
+      <tr>
+        <td><b>Áudios (Trilhas)</b></td>
+        <td>Permite associar arquivos de narração (<code>.mp3</code>, <code>.wav</code>) com ajuste fino de volume individual (de 0.1x a 2.0x).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Configurações de Vídeo e Efeitos</h2>
+  <div class="step-box">
+    <h3>Arrastar &amp; Soltar (Drag &amp; Drop) e Auto-Preenchimento</h3>
+    <p>Você pode simplesmente arrastar o arquivo <code>.json</code> ou a pasta de fotos/vídeos do Windows Explorer e soltar direto na janela do Conversor. Ao carregar o JSON, o aplicativo já define o <b>Nome do Projeto</b> automaticamente a partir do arquivo e, se as fotos e vídeos estiverem na mesma pasta, também preenche a <b>Pasta das Mídias</b> instantaneamente.</p>
+  </div>
+
+  <div class="step-box">
+    <h3>Resolução e Taxa de Quadros (FPS)</h3>
+    <p>Suporta <code>1920x1080</code> (Horizontal / YouTube), <code>1080x1920</code> (Vertical / Shorts / Reels) e <code>1080x1080</code> (Quadrado). O motor calcula a escala exata (contain/cover) para evitar distorções de aspecto.</p>
+  </div>
+
+  <div class="step-box">
+    <h3>Efeitos Automáticos Opcionais</h3>
+    <ul>
+      <li><b>Zoom / Quicar Automático:</b> Aplica movimento dinâmico e suave em imagens estáticas. O limite de tempo (<i>Limite Zoom</i>) define se aplica zoom progressivo ou quique. Em vídeos MP4, o efeito é ignorado para preservar a ação original.</li>
+      <li><b>Transição (Fade Preto):</b> Insere transições de esmaecimento suave entre cenas consecutivas com duração regulável (padrão 0.47s a 0.9s).</li>
+      <li><b>Filtro VHS:</b> Gera uma camada de overlay com textura retrô clássica.</li>
+      <li><b>Marca do Canal:</b> Aplica texto com o nome do seu canal fixado na tela.</li>
+    </ul>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">🔍 Botão "Validar JSON"</div>
+    Antes de gerar o projeto, clique sempre em <b>🔍 Validar JSON</b>. O app confere arquivo por arquivo se todas as imagens, vídeos e áudios existem no disco. Se faltar algum arquivo, o log listará exatamente qual item está ausente para você corrigir antes de abrir o CapCut.
+  </div>
+</div>
+
+<!-- PÁGINA 3: JUNTAR ÁUDIOS TTS -->
+<div class="page">
+  <h1>3. Módulo 2 — Juntar Áudios TTS</h1>
+  <p>
+    Este módulo foi desenhado para solucionar a clássica limitação de 500 caracteres do CapCut na geração de narrações por inteligência artificial.
+  </p>
+
+  <h2>Como Funciona o Problema e a Solução</h2>
+  <p>
+    Ao importar um arquivo <code>.srt</code> no CapCut e acionar a função <i>Texto para Fala</i>, o CapCut cria um arquivo de áudio para cada fala. No entanto, ele posiciona o início do áudio no segundo original em que a legenda foi gravada. Quando a fala do robô é mais rápida que a legenda, surgem <b>grandes silêncios</b> na timeline, exigindo que o editor arraste dezenas de clipes na mão.
+  </p>
+  <p>
+    A aba <b>🎙️ Juntar Áudios TTS</b> analisa a trilha do projeto e <b>reposiciona todos os áudios em cadeia contínua</b>, eliminando os silêncios de forma 100% matemática e instantânea.
+  </p>
+
+  <h2>Fluxo de Trabalho Passo a Passo</h2>
+  
+  <div class="step-box">
+    <div class="step-head"><span class="step-num">1</span> No CapCut Desktop</div>
+    <p>Abra seu projeto, importe o arquivo <code>.srt</code>, selecione todos os textos da legenda e clique em <b>Texto para Fala</b>. Espere a voz ser gerada em todas as legendas e <b>feche o CapCut</b> (ele salva automaticamente).</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-head"><span class="step-num">2</span> No Conversor CapCut</div>
+    <p>Abra o Conversor e clique na aba <b>🎙️ Juntar Áudios TTS</b> no topo. No campo <i>Draft Recente do CapCut</i>, selecione o seu projeto na lista suspensa (seus rascunhos são listados do mais recente ao mais antigo).</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-head"><span class="step-num">3</span> Configurações de Compactação &amp; Áudio Avançado</div>
+    <ul>
+      <li><b>Pausa Entre Falas (s):</b> Tempo de intervalo entre cada bloco de voz. Use <code>0.0s</code> para colar as falas imediatamente sem pausas, ou <code>0.1s</code> a <code>0.15s</code> para conferir uma respiração natural à narração.</li>
+      <li><b>Início do 1º Áudio:</b> O segundo exato em que a narração deve iniciar na timeline (por padrão <code>0.0s</code>).</li>
+      <li><b>Sincronizar legendas:</b> Marcado por padrão. Quando ativo, os blocos de legenda se movem junto com seus respectivos áudios, mantendo a leitura perfeitamente sincronizada com a voz!</li>
+      <li><b>✂️ Corte Inteligente de Silêncio (Trim de Pontas):</b> <i>(Opcional, desligado por padrão)</i>. O TTS do CapCut costuma injetar pequenos silêncios mortos antes e depois de cada frase. O Trim apara o início (0.10s) e o fim (0.15s) de cada fala de forma limpa, conferindo um ritmo dinâmico de estúdio.</li>
+      <li><b>🎚️ Micro Fade Anti-Estalo (15ms):</b> <i>(Opcional, desligado por padrão)</i>. Aplica rampas imperceptíveis de 15ms nas bordas de cada fala colada, eliminando micro estalos ou cliques no ponto de emenda das ondas sonoras.</li>
+    </ul>
+  </div>
+
+  <div class="step-box">
+    <div class="step-head"><span class="step-num">4</span> Clique em "⚡ Juntar Áudios no CapCut"</div>
+    <p>O conversor calcula os novos tempos, cria o backup de proteção, atualiza a duração total do projeto e emite o relatório na tela. Em seguida, basta clicar em <b>🚀 Abrir CapCut</b> no topo para ver sua timeline pronta!</p>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">↩️ Restauração de Backup em 1 Clique</div>
+    Se você testou um intervalo e quiser desfazer, basta clicar no botão <b>↩️ Desfazer / Restaurar Backup Original (.bak)</b> exibido logo abaixo do botão de juntar áudios. Ele recupera seu rascunho instantaneamente.
+  </div>
+</div>
+
+<!-- PÁGINA 4: EXTRAIR E JUNTAR ÁUDIO -->
+<div class="page">
+  <h1>4. Módulo 3 — Extrair &amp; Juntar Áudio</h1>
+  <p>
+    Desenvolvido para criar arquivos de narração completos sem precisar esperar o CapCut exportar vídeos pesados ou abrir softwares secundários.
+  </p>
+
+  <h2>Dois Modos de Trabalho</h2>
+
+  <div class="step-box">
+    <h3>🎬 Modo 1: Extrair de Vídeo (.mp4)</h3>
+    <p>
+      Permite carregar qualquer vídeo (seja o rascunho gerado pelo CapCut ou arquivos externos). O motor FFmpeg integrado isola a trilha sonora e gera um <code>.mp3</code> ou <code>.wav</code> em menos de 1 segundo, sem tocar no fluxo de vídeo e sem gastar processamento gráfico.
+    </p>
+  </div>
+
+  <div class="step-box">
+    <h3>🎙️ Modo 2: Juntar Falas TTS (Direto da Fonte)</h3>
+    <p>
+      Localiza as falas gravadas em <code>textReading</code> dentro da pasta do rascunho e lê a timeline oficial do CapCut. O aplicativo alinha todos os áudios na ordem cronológica exata, permitindo configurar a pausa entre falas (ex: <code>0.0s</code> ou <code>0.10s</code>) e aplicar corte de silêncio morto (Trim) nas bordas.
+    </p>
+  </div>
+
+  <h2>Formatos e Qualidade de Estúdio</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:25%;">Formato</th>
+        <th>Características e Recomendações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>MP3 — 320 kbps</b></td>
+        <td>Qualidade Master de Estúdio. Recomendado para YouTube, podcasts e narrações finais com fidelidade máxima e compatibilidade universal.</td>
+      </tr>
+      <tr>
+        <td><b>MP3 — 256k / 192k</b></td>
+        <td>Taxas padrão excelentes para internet, com equilíbrio perfeito entre nitidez e tamanho reduzido.</td>
+      </tr>
+      <tr>
+        <td><b>WAV (Lossless)</b></td>
+        <td>Áudio puro sem nenhuma compressão (PCM 16-bit 44.1kHz), ideal para quem vai fazer pós-produção em softwares como Audacity, Reaper ou Premiere.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">⚡ Desempenho Instantâneo</div>
+    Ao finalizar a geração, o aplicativo exibe o tamanho do arquivo gerado, cria um link clicável direto para a pasta e oferece o botão <b>▶️ Ouvir Arquivo Gerado</b> para você conferir na hora no seu player favorito.
+  </div>
+</div>
+
+<!-- PÁGINA 5: FAQ E GUIA DE REFERÊNCIA -->
+<div class="page">
+  <h1>5. Perguntas Frequentes &amp; Referência</h1>
+
+  <h2>Dúvidas e Resolução de Problemas</h2>
+
+  <h3>1. O CapCut pode perder as mídias de vídeo se eu mover a pasta?</h3>
+  <p>
+    Sim. O CapCut registra o caminho absoluto dos arquivos no seu computador. Mantenha os vídeos e imagens na mesma pasta informada durante a conversão. Caso precise mudar de pasta, basta rodar o conversor novamente apontando para o novo local.
+  </p>
+
+  <h3>2. Posso usar vídeos e fotos no mesmo projeto?</h3>
+  <p>
+    Sim! O conversor identifica automaticamente se o arquivo é vídeo (<code>.mp4</code>, <code>.mov</code>, etc.) ou foto (<code>.jpg</code>, <code>.png</code>). Em fotos, ele aplica escala e zoom se configurado; em vídeos, ele mantém a taxa de quadros e velocidade de reprodução adequadas.
+  </p>
+
+  <h3>3. Como desfazer uma compactação de áudios se eu fechar o aplicativo?</h3>
+  <p>
+    Ao reabrir o Conversor e selecionar o mesmo projeto na aba TTS, o aplicativo detecta o backup e reexibe o botão <b>↩️ Desfazer / Restaurar Backup Original (.bak)</b>. Basta um clique para restaurar. Alternativamente, você pode ir na pasta do projeto e renomear <code>draft_content.json.bak</code> para <code>draft_content.json</code>.
+  </p>
+
+  <h2>Resumo dos Arquivos do Sistema</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30%;">Arquivo</th>
+        <th>Finalidade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>Iniciar Conversor.bat</code></td>
+        <td>Atalho com duplo clique para iniciar o aplicativo com segurança.</td>
+      </tr>
+      <tr>
+        <td><code>converter_gui.py</code></td>
+        <td>Lógica de comunicação entre o Python e a interface gráfica HTML/CSS.</td>
+      </tr>
+      <tr>
+        <td><code>converter.py</code></td>
+        <td>Motor principal com as funções de cálculo de draft, áudio e compactação.</td>
+      </tr>
+      <tr>
+        <td><code>gui.html</code></td>
+        <td>Interface gráfica completa com suporte a temas claro/escuro e abas.</td>
+      </tr>
+      <tr>
+        <td><code>capcut_templates.json</code></td>
+        <td>Modelos nativos do CapCut para efeitos de animação, fade e VHS.</td>
+      </tr>
+      <tr>
+        <td><code>converter_config.json</code></td>
+        <td>Arquivo que memoriza seus últimos caminhos e opções escolhidas.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-info">
+    <div class="callout-title">💡 Dica Final de Atalho</div>
+    Para facilitar ainda mais o seu trabalho diário, você pode criar um atalho na Área de Trabalho para o arquivo <code>Iniciar Conversor.bat</code> ou fixá-lo na barra de tarefas do Windows.
+  </div>
+</div>
+
+</body>
+</html>
