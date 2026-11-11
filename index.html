@@ -1,0 +1,2740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversor CapCut 4.2</title>
+<link rel="icon" type="image/x-icon" href="app_icon.ico">
+<link rel="shortcut icon" href="app_icon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    color-scheme: dark;
+    --bg:          #08090d;
+    --surface:     rgba(18, 20, 28, 0.45); /* Mais translúcido para revelar a nébula e textura */
+    --surface-solid: #121318;
+    --panel:       rgba(24, 27, 38, 0.38); /* Camada translúcida interna */
+    --panel-solid: #171820;
+    --border:      rgba(255, 120, 30, 0.16);
+    --border2:     rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 130, 35, 0.45);
+    --text:        #ffffff;
+    --sub:         #9aa0a6;
+    --cyan:        #ff6a00; /* Laranja vibrante da referência FlowBoard */
+    --blue:        #ff5000;
+    --grad:        linear-gradient(135deg, #ff7e1a 0%, #ff5500 100%);
+    --gbtn:        linear-gradient(135deg, #ff7500 0%, #eb4e00 100%);
+    --red:         #ef4444;
+    --green:       #10b981;
+    --r:           9px;
+    --glow:        0 0 16px rgba(255, 106, 0, 0.22);
+  }
+
+  [data-theme="light"], body[data-theme="light"] {
+    color-scheme: light;
+    --bg:          #eef2f7;
+    --surface:     rgba(255, 255, 255, 0.68);
+    --surface-solid: #ffffff;
+    --panel:       rgba(240, 245, 252, 0.55);
+    --panel-solid: #ffffff;
+    --border:      rgba(0, 103, 192, 0.14);
+    --border2:     rgba(0, 60, 120, 0.10);
+    --border-hover: rgba(0, 103, 192, 0.40);
+    --text:        #0f172a;
+    --sub:         #475569;
+    --cyan:        #0067c0;
+    --blue:        #005fb8;
+    --grad:        linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
+    --gbtn:        linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
+    --glow:        0 0 16px rgba(0, 103, 192, 0.22);
+    --green:       #107c41;
+    --red:         #c42b1c;
+  }
+
+  body {
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 10px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+  }
+
+  body[data-theme="light"] {
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(0, 103, 192, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 103, 192, 0.045) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(circle 500px at 12% 16%, rgba(255, 106, 0, 0.15) 0%, transparent 70%),
+      radial-gradient(circle 600px at 88% 35%, rgba(255, 80, 0, 0.11) 0%, transparent 70%),
+      radial-gradient(circle 550px at 38% 85%, rgba(255, 120, 20, 0.09) 0%, transparent 70%),
+      radial-gradient(circle 450px at 80% 90%, rgba(90, 105, 140, 0.10) 0%, transparent 70%);
+  }
+
+  body[data-theme="light"]::before {
+    background:
+      radial-gradient(circle 550px at 12% 16%, rgba(0, 120, 212, 0.14) 0%, transparent 70%),
+      radial-gradient(circle 650px at 88% 30%, rgba(96, 165, 250, 0.13) 0%, transparent 70%),
+      radial-gradient(circle 500px at 35% 85%, rgba(14, 165, 233, 0.10) 0%, transparent 70%),
+      radial-gradient(circle 480px at 82% 90%, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+  }
+
+  #toast-container { position:fixed; top:18px; right:18px; z-index:10000; display:flex; flex-direction:column; gap:9px; pointer-events:none; }
+  .toast { background:var(--surface); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid var(--border); border-left:3px solid var(--cyan); color:var(--text); padding:10px 15px; border-radius:7px; box-shadow:0 10px 24px rgba(0,0,0,0.6), 0 0 14px rgba(255,106,0,0.15); font-size:10px; font-weight:600; transform:translateX(120%); opacity:0; transition:all 0.4s cubic-bezier(0.68,-0.55,0.265,1.55); display:flex; align-items:center; gap:9px; max-width:260px; }
+  [data-theme="light"] .toast {
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 10px 24px rgba(0, 40, 80, 0.12), 0 0 14px rgba(0, 103, 192, 0.15);
+  }
+  .toast.show { transform:translateX(0); opacity:1; pointer-events:auto; }
+  .toast.success { border-left-color:var(--green); box-shadow:0 10px 24px rgba(0,0,0,0.6), 0 0 14px rgba(16,185,129,0.2); }
+  .toast.error { border-left-color:var(--red); box-shadow:0 10px 24px rgba(0,0,0,0.6), 0 0 14px rgba(239,68,68,0.2); }
+  .toast.loading { border-left-color:var(--cyan); }
+  .toast-icon { font-size:12px; flex-shrink:0; }
+
+  .inline-progress-wrap { margin-bottom:9px; background:var(--panel); border:1px solid var(--border2); border-radius:6px; padding:10px; display:none; animation:fadeIn 0.3s ease; }
+  [data-theme="light"] .inline-progress-wrap { background: rgba(255, 255, 255, 0.65); border-color: rgba(0, 103, 192, 0.14); }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-5px); } to { opacity:1; transform:translateY(0); } }
+  .inline-progress-text { font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:700; color:var(--cyan); margin-bottom:6px; letter-spacing:0.4px; }
+  .inline-progress-track { width:100%; height:5px; background:var(--surface); border-radius:2.5px; overflow:hidden; border:1px solid var(--border); position: relative; }
+  [data-theme="light"] .inline-progress-track { background: rgba(230, 238, 248, 0.8); border-color: rgba(0, 103, 192, 0.12); }
+  .inline-progress-bar { height:100%; width:0%; background:var(--grad); transition:width 0.4s ease-out; box-shadow:0 0 12px rgba(255,106,0,0.6); }
+  [data-theme="light"] .inline-progress-bar { box-shadow: 0 0 12px rgba(0, 103, 192, 0.45); }
+  .progress-indeterminate { position:absolute; top:0; left:0; height:100%; width:40%; background:linear-gradient(90deg, transparent, rgba(255, 120, 30, 0.8), transparent); animation: sweep 1.5s infinite ease-in-out; display:none; }
+  [data-theme="light"] .progress-indeterminate { background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.8), transparent); }
+  @keyframes sweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
+
+  #app { display:flex; flex-direction:column; min-height:100vh; position:relative; z-index:1; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; padding:10px 20px; background:rgba(10,11,16,0.75); backdrop-filter:blur(24px) saturate(200%); -webkit-backdrop-filter:blur(24px) saturate(200%); border-bottom:1px solid var(--border); box-shadow:0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08); position:sticky; top:0; z-index:100; }
+  [data-theme="light"] .topbar {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border-bottom: 1px solid rgba(0, 103, 192, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 60, 120, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  .brand { display:flex; align-items:center; gap:8px; }
+  .brand span.title { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:700; background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-0.2px; }
+  .brand span.icon { font-size: 15px; }
+
+  .btn-sm { background:var(--panel); border:1px solid var(--border2); border-radius:6px; padding:6px 12px; color:var(--sub); font-size:10px; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+  .btn-sm:hover { border-color:var(--cyan); color:var(--text); box-shadow:0 0 10px rgba(255,106,0,0.18); }
+  [data-theme="light"] .btn-sm {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(0, 103, 192, 0.15);
+    color: #334155;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), 0 1px 3px rgba(0, 40, 80, 0.04);
+  }
+  [data-theme="light"] .btn-sm:hover {
+    border-color: #0078d4;
+    color: #0078d4;
+    box-shadow: 0 0 10px rgba(0, 103, 192, 0.18);
+    background: #ffffff;
+  }
+
+  .content { flex:1; padding:18px; max-width:900px; width:100%; margin:0 auto; }
+  .two-col { display:grid; grid-template-columns:1fr 270px; gap:12px; align-items:start; }
+  @media(max-width:750px){ .two-col{ grid-template-columns:1fr; } }
+  .panel {
+    background: var(--surface);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: visible;
+    position: relative;
+    margin-bottom: 12px;
+    box-shadow:
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+      0 12px 36px 0 rgba(0, 0, 0, 0.45);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .panel:hover {
+    border-color: var(--border-hover);
+    box-shadow:
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.22),
+      0 14px 40px rgba(0, 0, 0, 0.55),
+      0 0 20px rgba(255, 106, 0, 0.12);
+  }
+  [data-theme="light"] .panel {
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(0, 103, 192, 0.14);
+    box-shadow:
+      inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95),
+      0 10px 28px 0 rgba(0, 60, 120, 0.07),
+      0 2px 6px 0 rgba(0, 0, 0, 0.03);
+  }
+  [data-theme="light"] .panel:hover {
+    border-color: rgba(0, 103, 192, 0.38);
+    box-shadow:
+      inset 0 1px 1.5px 0 #ffffff,
+      0 14px 36px rgba(0, 60, 120, 0.12),
+      0 0 16px rgba(0, 120, 212, 0.14);
+  }
+  .panel-head {
+    padding: 10px 14px;
+    border-radius: var(--r) var(--r) 0 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  [data-theme="light"] .panel-head {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(240, 245, 252, 0.45) 100%);
+    border-bottom: 1px solid rgba(0, 103, 192, 0.09);
+    color: #0f172a;
+  }
+  .panel-body { padding:12px; }
+
+  label { display:block; font-size:9px; font-weight:600; color:var(--sub); text-transform:uppercase; letter-spacing:.5px; margin-bottom:4.5px; }
+  input[type="text"], input[type="number"] {
+    width:100%; background:rgba(14, 16, 23, 0.55); border:1px solid rgba(255, 120, 30, 0.14); border-radius:7px;
+    padding:7px 10px; color:var(--text); font-size:10.5px; font-family:'Inter',sans-serif; outline:none; transition:all .2s;
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    box-shadow:inset 0 1px 1px rgba(255, 255, 255, 0.08), 0 2px 6px rgba(0,0,0,0.25);
+  }
+  input[type="text"]:hover, input[type="number"]:hover {
+    border-color:rgba(255, 130, 35, 0.35);
+  }
+  [data-theme="light"] input[type="text"], [data-theme="light"] input[type="number"] {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(0, 103, 192, 0.18);
+    color: #0f172a;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.85), 0 2px 5px rgba(0, 40, 80, 0.04);
+  }
+  [data-theme="light"] input[type="text"]:hover, [data-theme="light"] input[type="number"]:hover {
+    border-color: rgba(0, 103, 192, 0.42);
+    background: rgba(255, 255, 255, 0.9);
+  }
+  input:focus { border-color:var(--cyan); box-shadow:inset 0 1px 1px rgba(255,255,255,0.16), 0 0 14px rgba(255,106,0,0.3); background:rgba(22,25,35,0.75); }
+  [data-theme="light"] input:focus {
+    border-color: #0067c0;
+    box-shadow: inset 0 1px 1.5px #ffffff, 0 0 12px rgba(0, 103, 192, 0.25);
+    background: #ffffff;
+  }
+  input[readonly] { color:var(--sub); cursor:default; }
+
+  /* ── Menus Dropdown (Select) em Vidro Fumê com Chanfro ── */
+  select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: rgba(16, 18, 26, 0.55) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    color: var(--text) !important;
+    border: 1px solid rgba(255, 120, 30, 0.18);
+    border-radius: 7px;
+    padding: 8px 30px 8px 11px;
+    font-size: 10.5px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ff7a00' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 10px) center;
+    background-size: 12px 12px;
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.14), 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  select:hover {
+    border-color: rgba(255, 130, 35, 0.45);
+    background-color: rgba(22, 25, 36, 0.65) !important;
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.22), 0 0 12px rgba(255, 106, 0, 0.22);
+  }
+  select:focus {
+    border-color: var(--cyan) !important;
+    background-color: rgba(25, 28, 40, 0.85) !important;
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 0 16px rgba(255, 106, 0, 0.38) !important;
+  }
+  [data-theme="light"] select {
+    background-color: rgba(255, 255, 255, 0.75) !important;
+    color: var(--text) !important;
+    border: 1px solid rgba(0, 103, 192, 0.18);
+    box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.9), 0 2px 6px rgba(0, 40, 80, 0.04);
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230067c0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  }
+  [data-theme="light"] select:hover {
+    border-color: rgba(0, 103, 192, 0.45);
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: inset 0 1px 1.5px #ffffff, 0 0 10px rgba(0, 103, 192, 0.18);
+  }
+  [data-theme="light"] select:focus {
+    border-color: #0067c0 !important;
+    background-color: #ffffff !important;
+    box-shadow: inset 0 1px 1.5px #ffffff, 0 0 14px rgba(0, 103, 192, 0.28) !important;
+  }
+
+  select option {
+    background-color: #0f1016 !important;
+    color: #f1f2f6 !important;
+    padding: 8px 12px;
+    font-size: 10.5px;
+  }
+  [data-theme="light"] select option {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  /* ── Custom Glass Dropdowns (Substitutos Visuais do Select) ── */
+  .panel:has(.custom-select-wrap.open) {
+    z-index: 500 !important;
+  }
+  .two-col > div:has(.custom-select-wrap.open) {
+    z-index: 500 !important;
+    position: relative;
+  }
+  .field:has(.custom-select-wrap.open) {
+    z-index: 600 !important;
+    position: relative;
+  }
+  .custom-select-wrap {
+    position: relative;
+    width: 100%;
+    user-select: none;
+  }
+  .custom-select-wrap.open {
+    z-index: 1000;
+  }
+  .custom-select-wrap.open-up .custom-select-menu {
+    top: auto;
+    bottom: calc(100% + 5px);
+    box-shadow: 0 -16px 36px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 106, 0, 0.15), inset 0 -1px 1px rgba(255, 255, 255, 0.12);
+    animation: dropFadeInUp 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes dropFadeInUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .custom-select-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(16, 18, 26, 0.55);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    color: var(--text);
+    border: 1px solid rgba(255, 120, 30, 0.18);
+    border-radius: 7px;
+    padding: 8px 12px;
+    font-size: 10.5px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.14), 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .custom-select-trigger:hover {
+    border-color: rgba(255, 130, 35, 0.45);
+    background: rgba(22, 25, 36, 0.65);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.22), 0 0 12px rgba(255, 106, 0, 0.22);
+  }
+  .custom-select-wrap.open .custom-select-trigger {
+    border-color: var(--cyan);
+    background: rgba(25, 28, 40, 0.85);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 0 16px rgba(255, 106, 0, 0.38);
+  }
+  .custom-select-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 8px;
+    font-weight: 600;
+  }
+  .custom-select-arrow {
+    width: 12px;
+    height: 12px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ff7a00' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px 12px;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+  }
+  .custom-select-wrap.open .custom-select-arrow {
+    transform: rotate(180deg);
+  }
+  .custom-select-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background: rgba(14, 16, 24, 0.88);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid rgba(255, 120, 30, 0.28);
+    border-radius: 9px;
+    padding: 5px;
+    max-height: 220px;
+    overflow-y: auto;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(255, 106, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+    display: none;
+    animation: dropFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .custom-select-wrap.open .custom-select-menu {
+    display: block;
+  }
+  .custom-select-menu::-webkit-scrollbar { width: 4px; }
+  .custom-select-menu::-webkit-scrollbar-track { background: transparent; }
+  .custom-select-menu::-webkit-scrollbar-thumb { background: rgba(255, 120, 30, 0.35); border-radius: 2px; }
+  .custom-select-item {
+    padding: 8px 12px;
+    font-size: 10.5px;
+    font-family: 'Inter', sans-serif;
+    color: #e2e4ea;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .custom-select-item:hover {
+    background: rgba(255, 106, 0, 0.18);
+    color: #ffffff;
+    padding-left: 15px;
+  }
+  .custom-select-item.selected {
+    background: var(--grad);
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(255, 106, 0, 0.3);
+  }
+  [data-theme="light"] .custom-select-trigger {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    color: #0f172a;
+    border: 1px solid rgba(0, 103, 192, 0.18);
+    box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.9), 0 2px 6px rgba(0, 40, 80, 0.04);
+  }
+  [data-theme="light"] .custom-select-trigger:hover {
+    border-color: rgba(0, 103, 192, 0.45);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: inset 0 1px 1.5px #ffffff, 0 0 10px rgba(0, 103, 192, 0.18);
+  }
+  [data-theme="light"] .custom-select-wrap.open .custom-select-trigger {
+    border-color: #0067c0;
+    background: #ffffff;
+    box-shadow: inset 0 1px 1.5px #ffffff, 0 0 14px rgba(0, 103, 192, 0.28);
+  }
+  [data-theme="light"] .custom-select-arrow {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230067c0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  }
+  [data-theme="light"] .custom-select-menu {
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(0, 103, 192, 0.22);
+    box-shadow: 0 16px 36px rgba(0, 40, 80, 0.14), 0 0 18px rgba(0, 103, 192, 0.12), inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  }
+  [data-theme="light"] .custom-select-wrap.open-up .custom-select-menu {
+    box-shadow: 0 -16px 36px rgba(0, 40, 80, 0.14), 0 0 18px rgba(0, 103, 192, 0.12), inset 0 -1px 1.5px rgba(255, 255, 255, 0.95);
+  }
+  [data-theme="light"] .custom-select-menu::-webkit-scrollbar-thumb {
+    background: rgba(0, 103, 192, 0.25);
+  }
+  [data-theme="light"] .custom-select-item {
+    color: #1e293b;
+  }
+  [data-theme="light"] .custom-select-item:hover {
+    background: rgba(0, 103, 192, 0.09);
+    color: #0067c0;
+    font-weight: 600;
+  }
+  [data-theme="light"] .custom-select-item.selected {
+    background: var(--grad);
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(0, 103, 192, 0.35);
+  }
+  .field { margin-bottom:10px; }
+  .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .field-row { display:flex; gap:6px; align-items:stretch; }
+  .field-row input { flex:1; }
+
+  .check-row { display:flex; align-items:center; gap:6px; margin-bottom:9px; }
+  .check-row input[type="checkbox"] { width:12px; height:12px; accent-color:var(--cyan); cursor:pointer; }
+  .check-row label { margin-bottom:0; text-transform:none; letter-spacing:0; font-size:10px; color:var(--text); cursor:pointer; font-weight:500; }
+
+  .btn-generate {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    background: var(--gbtn);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--r);
+    padding: 11px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 11.5px;
+    cursor: pointer;
+    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: .3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+  .btn-generate:hover:not(:disabled) {
+    border-color: rgba(255, 180, 60, 0.4);
+    box-shadow: 0 0 16px rgba(255, 115, 0, 0.32), 0 3px 10px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.07);
+    transform: translateY(-1px);
+  }
+  [data-theme="light"] .btn-generate:hover:not(:disabled) {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 16px rgba(0, 103, 192, 0.35), 0 3px 10px rgba(0, 40, 80, 0.15);
+  }
+  .btn-generate:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+  .btn-generate:disabled:not(.btn-loading) {
+    opacity: .45;
+    cursor: not-allowed;
+    box-shadow: none;
+    filter: none;
+    transform: none;
+  }
+
+  /* ── Animação quando estiver Gerando / Processando ── */
+  .btn-generate.btn-loading {
+    cursor: wait !important;
+    pointer-events: none;
+    border-color: rgba(255, 190, 70, 0.55) !important;
+    background: linear-gradient(90deg, #ff6a00 0%, #ffa534 50%, #ff5500 100%) !important;
+    background-size: 200% 100% !important;
+    animation: btnShimmer 1.5s ease-in-out infinite alternate, btnGlowPulse 1.8s ease-in-out infinite !important;
+    box-shadow: 0 0 18px rgba(255, 115, 0, 0.4) !important;
+  }
+  [data-theme="light"] .btn-generate.btn-loading {
+    border-color: rgba(56, 189, 248, 0.6) !important;
+    background: linear-gradient(90deg, #0078d4 0%, #38bdf8 50%, #005a9e 100%) !important;
+    background-size: 200% 100% !important;
+    animation: btnShimmer 1.5s ease-in-out infinite alternate, btnGlowPulseLight 1.8s ease-in-out infinite !important;
+    box-shadow: 0 0 18px rgba(0, 120, 212, 0.45) !important;
+  }
+  .btn-generate.btn-loading::after {
+    content: '';
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    margin-left: 9px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spinBtn 0.7s linear infinite;
+    vertical-align: -1px;
+  }
+
+  @keyframes btnShimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  @keyframes btnGlowPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(255, 106, 0, 0.25); filter: brightness(1); }
+    50% { box-shadow: 0 0 22px rgba(255, 125, 30, 0.55); filter: brightness(1.1); }
+  }
+
+  @keyframes btnGlowPulseLight {
+    0%, 100% { box-shadow: 0 0 10px rgba(0, 103, 192, 0.25); filter: brightness(1); }
+    50% { box-shadow: 0 0 22px rgba(0, 120, 212, 0.55); filter: brightness(1.08); }
+  }
+
+  @keyframes spinBtn {
+    to { transform: rotate(360deg); }
+  }
+
+  .audio-row { display:grid; grid-template-columns:1fr auto 54px auto; gap:5px; align-items:center; margin-bottom:6px; }
+  .audio-row input[type="text"] { margin-bottom:0; }
+  .audio-row input[type="number"] { margin-bottom:0; padding:7px 6px; text-align:center; }
+  .btn-remove { background:transparent; border:none; color:var(--red); cursor:pointer; font-size:12px; padding:3px; opacity:.6; transition:opacity .15s; line-height:1; }
+  .btn-remove:hover { opacity:1; }
+  .btn-add { background:transparent; border:1px dashed var(--border2); border-radius:6px; padding:4px 9px; color:var(--sub); font-size:9.5px; font-weight:600; cursor:pointer; transition:all .15s; }
+  .btn-add:hover { border-color:var(--cyan); color:var(--cyan); }
+  [data-theme="light"] .btn-add:hover { border-color:#0078d4; color:#0078d4; }
+
+  #log-output {
+    font-family:'Courier New',monospace; font-size:9.5px; line-height:1.6; white-space:pre-wrap; word-break:break-word;
+    max-height:210px; overflow-y:auto; background:rgba(10,11,16,0.65); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,0.06); border-radius:6px;
+    padding:10px; color:var(--sub); box-shadow:inset 0 2px 6px rgba(0,0,0,0.45);
+  }
+  [data-theme="light"] #log-output {
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(0, 103, 192, 0.12);
+    box-shadow: inset 0 2px 6px rgba(0, 40, 80, 0.05);
+    color: #334155;
+  }
+  #log-output .ok { color:var(--green); font-weight:600; }
+  #log-output .err { color:var(--red); }
+  #log-output .link { color:var(--cyan); text-decoration:underline; cursor:pointer; }
+
+  .actions-row { display:flex; gap:8px; margin-top:3px; }
+  .actions-row .btn-sm { flex:1; padding:9px; font-size:10px; }
+
+  ::-webkit-scrollbar { width:4px; height:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+  /* ── Navegação por Abas (Pílulas no Topo) ── */
+  .nav-tabs {
+    display: flex; gap: 4px; padding: 4px;
+    background: rgba(14, 16, 24, 0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border); border-radius: 9px;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.08), 0 4px 14px rgba(0,0,0,0.35);
+  }
+  [data-theme="light"] .nav-tabs {
+    background: rgba(235, 241, 248, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 103, 192, 0.14);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.9), 0 3px 10px rgba(0, 40, 80, 0.05);
+  }
+  .nav-tab-btn {
+    background: transparent; border: none;
+    padding: 7px 15px; font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px; font-weight: 700; color: var(--sub); cursor: pointer;
+    border-radius: 7px; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px;
+  }
+  .nav-tab-btn:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
+  [data-theme="light"] .nav-tab-btn:hover { color: #0067c0; background: rgba(0, 103, 192, 0.08); }
+  .nav-tab-btn.active {
+    background: var(--grad);
+    color: #ffffff !important;
+    font-weight: 800;
+    box-shadow: 0 3px 14px rgba(255, 90, 0, 0.45);
+  }
+  [data-theme="light"] .nav-tab-btn.active {
+    background: var(--grad);
+    color: #ffffff !important;
+    box-shadow: 0 3px 14px rgba(0, 103, 192, 0.35);
+  }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; animation: fadeIn 0.25s ease; }
+
+  #tts-log-output {
+    font-family:'Courier New',monospace; font-size:9.5px; line-height:1.6; white-space:pre-wrap; word-break:break-word;
+    max-height:180px; overflow-y:auto; background:rgba(10,11,16,0.65); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,0.06); border-radius:6px;
+    padding:10px; color:var(--sub); box-shadow:inset 0 2px 6px rgba(0,0,0,0.45);
+  }
+  [data-theme="light"] #tts-log-output {
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(0, 103, 192, 0.12);
+    box-shadow: inset 0 2px 6px rgba(0, 40, 80, 0.05);
+    color: #334155;
+  }
+  #tts-log-output .ok { color:var(--green); font-weight:600; }
+  #tts-log-output .err { color:var(--red); }
+  #tts-log-output .link { color:var(--cyan); text-decoration:underline; cursor:pointer; }
+
+  /* ── Drag & Drop Overlay ── */
+  #drop-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(9, 10, 14, 0.90); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    z-index: 99999; align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px; border: 2px dashed var(--cyan);
+    margin: 12px; border-radius: 12px; pointer-events: none;
+    box-shadow: 0 0 40px rgba(255, 106, 0, 0.35);
+  }
+  [data-theme="light"] #drop-overlay {
+    background: rgba(240, 245, 252, 0.92);
+    border-color: #0078d4;
+    box-shadow: 0 0 40px rgba(0, 120, 212, 0.25);
+  }
+  #drop-overlay .drop-icon { font-size: 48px; }
+  #drop-overlay .drop-title { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; color: var(--cyan); }
+  #drop-overlay .drop-sub { font-size: 11px; color: var(--sub); }
+
+  /* ── Botão CapCut no Topbar ── */
+  .btn-capcut {
+    background: rgba(255, 106, 0, 0.08); border: 1px solid var(--cyan); color: var(--cyan);
+    display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px rgba(255, 106, 0, 0.12);
+  }
+  .btn-capcut:hover {
+    background: var(--grad); color: #ffffff !important; border-color: transparent; font-weight: 700;
+    box-shadow: 0 4px 16px rgba(255, 90, 0, 0.45);
+  }
+  [data-theme="light"] .btn-capcut {
+    background: rgba(0, 103, 192, 0.08);
+    border: 1px solid #0078d4;
+    color: #0078d4;
+    box-shadow: 0 0 10px rgba(0, 103, 192, 0.12);
+  }
+  [data-theme="light"] .btn-capcut:hover {
+    background: var(--grad);
+    color: #ffffff !important;
+    box-shadow: 0 4px 16px rgba(0, 103, 192, 0.35);
+  }
+
+  /* ── Botão Restaurar Backup ── */
+  .btn-restore {
+    width: 100%; background: transparent; border: 1px dashed var(--border2);
+    border-radius: var(--r); padding: 8px; color: var(--sub); font-size: 10px;
+    font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 8px; display: none;
+  }
+  .btn-restore:hover {
+    border-color: var(--red); color: var(--red); background: rgba(239, 68, 68, 0.08);
+  }
+
+  /* ── Seletor de Modo na Aba 3 ── */
+  .mode-switch {
+    display: flex; gap: 8px; margin-bottom: 14px;
+    background: rgba(14, 15, 20, 0.75); padding: 4px; border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  [data-theme="light"] .mode-switch {
+    background: rgba(232, 239, 248, 0.75);
+    border: 1px solid rgba(0, 103, 192, 0.14);
+  }
+  .mode-btn {
+    flex: 1; padding: 8px 12px; background: transparent; border: none;
+    border-radius: 6px; font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px; font-weight: 700; color: var(--sub); cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .mode-btn:hover { color: var(--text); }
+  .mode-btn.active {
+    background: rgba(255, 106, 0, 0.16); color: var(--cyan);
+    box-shadow: 0 0 12px rgba(255, 106, 0, 0.2);
+    border: 1px solid rgba(255, 106, 0, 0.35);
+  }
+  [data-theme="light"] .mode-btn.active {
+    background: rgba(0, 120, 212, 0.12);
+    color: #0067c0;
+    box-shadow: 0 0 12px rgba(0, 120, 212, 0.18);
+    border: 1px solid rgba(0, 120, 212, 0.35);
+  }
+
+  .format-pills {
+    display: flex; gap: 8px; margin-bottom: 12px;
+  }
+  .format-pill {
+    flex: 1; padding: 7px; text-align: center; border-radius: 6px;
+    background: var(--panel); border: 1px solid var(--border2);
+    font-weight: 700; font-size: 10.5px; cursor: pointer; color: var(--sub);
+    transition: all 0.15s;
+  }
+  .format-pill:hover { border-color: var(--cyan); color: var(--text); }
+  .format-pill.active {
+    border-color: var(--cyan); color: var(--cyan); background: rgba(255, 106, 0, 0.14);
+    box-shadow: 0 0 10px rgba(255, 106, 0, 0.2);
+  }
+  [data-theme="light"] .format-pill {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(0, 103, 192, 0.14);
+    color: #334155;
+  }
+  [data-theme="light"] .format-pill:hover {
+    border-color: #0067c0;
+    color: #0067c0;
+  }
+  [data-theme="light"] .format-pill.active {
+    border-color: #0067c0;
+    color: #0067c0;
+    background: rgba(0, 120, 212, 0.12);
+    box-shadow: 0 0 10px rgba(0, 120, 212, 0.18);
+  }
+
+  #ext-log-output {
+    font-family:'Courier New',monospace; font-size:9.5px; line-height:1.6; white-space:pre-wrap; word-break:break-word;
+    max-height:180px; overflow-y:auto; background:rgba(10,11,16,0.65); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,0.06); border-radius:6px;
+    padding:10px; color:var(--sub); box-shadow:inset 0 2px 6px rgba(0,0,0,0.45);
+  }
+  [data-theme="light"] #ext-log-output {
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(0, 103, 192, 0.12);
+    box-shadow: inset 0 2px 6px rgba(0, 40, 80, 0.05);
+    color: #334155;
+  }
+  #ext-log-output .ok { color:var(--green); font-weight:600; }
+  #ext-log-output .err { color:var(--red); }
+  #ext-log-output .link { color:var(--cyan); text-decoration:underline; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div id="app">
+  <div class="topbar">
+    <div class="brand">
+      <span class="icon">🎬</span>
+      <span class="title">Conversor CapCut 4.2</span>
+    </div>
+
+    <!-- NAVEGAÇÃO DE ABAS NO TOPO -->
+    <div class="nav-tabs">
+      <button class="nav-tab-btn active" id="btn-tab-converter" onclick="switchTab('converter')">
+        <span>🎬</span> Conversor de Timeline
+      </button>
+      <button class="nav-tab-btn" id="btn-tab-tts" onclick="switchTab('tts')">
+        <span>🎙️</span> Juntar Áudios TTS
+      </button>
+      <button class="nav-tab-btn" id="btn-tab-extract" onclick="switchTab('extract')">
+        <span>🎵</span> Extrair &amp; Juntar Áudio
+      </button>
+    </div>
+
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button class="btn-sm btn-capcut" onclick="launchCapCut()" title="Abrir o CapCut diretamente">
+        <span>🚀</span> Abrir CapCut
+      </button>
+      <button class="btn-sm" id="theme-toggle-btn" onclick="toggleTheme()">☀️ Tema Claro</button>
+    </div>
+  </div>
+
+  <!-- Overlay para Arrastar e Soltar (Drag & Drop) -->
+  <div id="drop-overlay">
+    <div class="drop-icon">📂</div>
+    <div class="drop-title">Solte o arquivo ou pasta aqui</div>
+    <div class="drop-sub">Reconhece automaticamente .JSON, pastas de mídias ou projetos CapCut</div>
+  </div>
+
+  <div class="content">
+
+    <!-- ABA 1: CONVERSOR DE TIMELINE -->
+    <div id="pane-converter" class="tab-pane active">
+      <div class="two-col">
+
+        <!-- COLUNA ESQUERDA -->
+        <div>
+          <div class="panel">
+            <div class="panel-head">📁 Arquivos do Projeto</div>
+            <div class="panel-body">
+            <div class="field">
+              <label>JSON do Projeto</label>
+              <div class="field-row">
+                <input type="text" id="json_path" placeholder="Selecione ou cole o caminho do arquivo .json">
+                <button class="btn-sm" onclick="pickJson()">📂 Escolher</button>
+              </div>
+            </div>
+            <div class="field">
+              <label>Pasta das Mídias</label>
+              <div class="field-row">
+                <input type="text" id="media_folder" placeholder="Selecione ou cole o caminho da pasta de mídias">
+                <button class="btn-sm" onclick="pickMediaFolder()">📂 Escolher</button>
+              </div>
+            </div>
+            <div class="field">
+              <label>Nome do Projeto</label>
+              <input type="text" id="proj_name" value="MeuProjeto">
+            </div>
+            <div class="field">
+              <label>Pasta de Drafts do CapCut</label>
+              <div class="field-row">
+                <input type="text" id="drafts_dir" placeholder="Detectado automaticamente, ou cole o caminho" onchange="saveDraftsDir(this.value)">
+                <button class="btn-sm" onclick="pickDraftsFolder()">📂 Escolher</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <span>🎵 Áudios</span>
+            <button class="btn-add" onclick="addAudioRow()">＋ Adicionar</button>
+          </div>
+          <div class="panel-body" id="audio-rows"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">📋 Log</div>
+          <div class="panel-body">
+            <div class="inline-progress-wrap" id="progress-wrap">
+              <div class="inline-progress-text" id="progress-text">Processando... 0%</div>
+              <div class="inline-progress-track">
+                <div class="inline-progress-bar" id="progress-bar"></div>
+                <div class="progress-indeterminate" id="progress-ind"></div>
+              </div>
+            </div>
+            <div id="log-output">Pronto. Selecione o JSON e a pasta de mídias para começar.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUNA DIREITA -->
+      <div>
+        <div class="panel">
+          <div class="panel-head">🎞️ Configurações de Vídeo</div>
+          <div class="panel-body">
+            <div class="row-2">
+              <div class="field">
+                <label>Resolução</label>
+                <select id="resolution">
+                  <option value="1920x1080">1920x1080</option>
+                  <option value="1080x1920">1080x1920</option>
+                  <option value="1080x1080">1080x1080</option>
+                  <option value="720x1280">720x1280</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>FPS</label>
+                <select id="fps">
+                  <option value="24">24</option>
+                  <option value="30">30</option>
+                  <option value="60" selected>60</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Extensão de Imagem</label>
+              <select id="img_ext">
+                <option value="jpg">jpg</option>
+                <option value="jpeg">jpeg</option>
+                <option value="png">png</option>
+                <option value="webp">webp</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">✨ Efeitos Automáticos</div>
+          <div class="panel-body">
+            <div class="check-row"><input type="checkbox" id="apply_zoom" checked><label for="apply_zoom">Zoom / Quicar automático</label></div>
+            <div class="check-row"><input type="checkbox" id="apply_transition" checked><label for="apply_transition">Transição (fade preto)</label></div>
+            <div class="check-row"><input type="checkbox" id="apply_vhs" checked><label for="apply_vhs">Filtro VHS</label></div>
+            <div class="check-row"><input type="checkbox" id="apply_watermark" checked><label for="apply_watermark">Marca do canal</label></div>
+            <div class="row-2">
+              <div class="field">
+                <label>Limite Zoom (s)</label>
+                <input type="text" id="zoom_threshold" value="5.0">
+              </div>
+              <div class="field">
+                <label>Duração Transição</label>
+                <input type="text" id="transition_dur" value="0.47">
+              </div>
+            </div>
+            <div class="field">
+              <label>Texto Marca do Canal</label>
+              <input type="text" id="watermark_text" placeholder="Nome do canal">
+            </div>
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn-sm" onclick="doValidate()">🔍 Validar JSON</button>
+        </div>
+        <div style="margin-top:10px;">
+          <button class="btn-generate" id="btn-generate" onclick="doConvert()">🚀 Gerar Draft</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- FIM ABA 1 -->
+
+  <!-- ABA 2: COMPACTADOR DE ÁUDIOS TTS -->
+  <div id="pane-tts" class="tab-pane">
+    <div class="two-col">
+
+      <!-- COLUNA ESQUERDA -->
+      <div>
+        <div style="margin-bottom:12px; padding:10px 14px; background:var(--panel); border:1px dashed var(--border-hover); border-radius:var(--r); display:flex; align-items:center; justify-content:space-between; gap:12px; backdrop-filter:blur(10px);">
+          <div>
+            <div style="font-size:10px; font-weight:700; color:var(--text); margin-bottom:2px;">
+              📁 Juntar Áudios ou Vídeos (.mp4 do CapCut Online / TTS)
+            </div>
+            <div style="font-size:8.5px; color:var(--sub);">
+              Tem partes de vídeo (.mp4) ou áudios divididos em uma pasta? Junte tudo em ordem alfabética natural em um único MP3/WAV!
+            </div>
+          </div>
+          <button class="btn-sm" style="border-color:var(--cyan); color:var(--cyan); flex-shrink:0;" onclick="switchTab('extract'); setExtractMode('folder');">
+            Ir para Juntador ➔
+          </button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">📂 Selecionar Projeto do CapCut</div>
+          <div class="panel-body">
+            <div class="field">
+              <label>Draft Recente do CapCut</label>
+              <div class="field-row">
+                <select id="tts_draft_select" onchange="onSelectTtsDraft()">
+                  <option value="">Carregando lista de projetos...</option>
+                </select>
+                <button class="btn-sm" onclick="loadTtsDrafts()" title="Recarregar rascunhos">🔄</button>
+              </div>
+            </div>
+            <div class="field">
+              <label>Ou Caminho da Pasta do Projeto</label>
+              <div class="field-row">
+                <input type="text" id="tts_draft_path" placeholder="Caminho do projeto do CapCut">
+                <button class="btn-sm" onclick="pickTtsDraftFolder()">📂 Escolher</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="tts-summary-panel" style="display:none;">
+          <div class="panel-head">📊 Resumo do Projeto</div>
+          <div class="panel-body">
+            <div id="tts-summary-content" style="line-height:1.7; font-size:10px; color:var(--text);"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">📋 Log de Compactação</div>
+          <div class="panel-body">
+            <div id="tts-log-output">Selecione um projeto do CapCut acima para analisar os áudios gerados pelo TTS.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUNA DIREITA -->
+      <div>
+        <div class="panel">
+          <div class="panel-head">⚙️ Configurações de Compactação</div>
+          <div class="panel-body">
+            <div class="field">
+              <label>Pausa Entre Falas (Segundos)</label>
+              <input type="number" id="tts_gap" value="0.0" step="0.05" min="0" placeholder="0.0 = Colado">
+              <span style="font-size:8.5px; color:var(--sub); display:block; margin-top:3px;">
+                💡 <b>0.0s</b> para colar direto, ou <b>0.1s</b> a <b>0.2s</b> para respiração natural.
+              </span>
+            </div>
+
+            <div class="field">
+              <label>Início do 1º Áudio na Timeline (s)</label>
+              <input type="number" id="tts_start_offset" value="0.0" step="0.1" min="0">
+              <span style="font-size:8.5px; color:var(--sub); display:block; margin-top:3px;">
+                Tempo exato onde o primeiro bloco de áudio começará.
+              </span>
+            </div>
+
+            <div style="margin-top:14px;">
+              <div class="check-row">
+                <input type="checkbox" id="tts_sync_subtitles" checked>
+                <label for="tts_sync_subtitles">Sincronizar legendas junto com os áudios</label>
+              </div>
+
+              <!-- Melhorias opcionais (desligadas por padrão) -->
+              <div class="check-row">
+                <input type="checkbox" id="tts_trim_silence" onchange="toggleTrimSettings()">
+                <label for="tts_trim_silence">✂️ Corte inteligente de silêncio (Trim de pontas)</label>
+              </div>
+              <div id="trim-settings-wrap" style="display:none; margin: 4px 0 10px 18px; padding: 8px 10px; background: var(--panel); border: 1px solid var(--border2); border-radius: 6px;">
+                <div class="row-2">
+                  <div class="field" style="margin-bottom:0;">
+                    <label>Aparar início (s)</label>
+                    <input type="number" id="tts_trim_start" value="0.10" step="0.05" min="0">
+                  </div>
+                  <div class="field" style="margin-bottom:0;">
+                    <label>Aparar fim (s)</label>
+                    <input type="number" id="tts_trim_end" value="0.15" step="0.05" min="0">
+                  </div>
+                </div>
+                <span style="font-size:8.5px; color:var(--sub); display:block; margin-top:4px;">
+                  Apara o silêncio morto antes e depois de cada frase gerada pelo TTS.
+                </span>
+              </div>
+
+              <div class="check-row">
+                <input type="checkbox" id="tts_micro_fade">
+                <label for="tts_micro_fade">🎚️ Micro fade anti-estalo (15ms nas junções)</label>
+              </div>
+
+              <div class="check-row">
+                <input type="checkbox" id="tts_backup" checked disabled>
+                <label for="tts_backup" title="Sempre cria uma cópia .bak antes de alterar">Criar backup automático (.bak)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <button class="btn-generate" id="btn-compact" onclick="doCompactAudios()">
+            ⚡ Juntar Áudios no CapCut
+          </button>
+          <button class="btn-restore" id="btn-restore-bak" onclick="doRestoreBackup()">
+            ↩️ Desfazer / Restaurar Backup Original (.bak)
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- FIM ABA 2 -->
+
+  <!-- ABA 3: EXTRAIR & JUNTAR ÁUDIO -->
+  <div id="pane-extract" class="tab-pane">
+    <!-- Seletor de Modo 1, 2 ou 3 -->
+    <div class="mode-switch">
+      <button class="mode-btn active" id="btn-mode-video" onclick="setExtractMode('video')">
+        <span>🎬</span> Modo 1: Extrair de Vídeo (.mp4)
+      </button>
+      <button class="mode-btn" id="btn-mode-tts" onclick="setExtractMode('tts')">
+        <span>🎙️</span> Modo 2: Juntar Falas do CapCut (Draft)
+      </button>
+      <button class="mode-btn" id="btn-mode-folder" onclick="setExtractMode('folder')">
+        <span>📁</span> Modo 3: Juntar Pasta (Áudios ou Vídeos .MP4)
+      </button>
+    </div>
+
+    <div class="two-col">
+
+      <!-- COLUNA ESQUERDA -->
+      <div>
+
+        <!-- MODO 1: EXTRAIR DE VÍDEO MP4 -->
+        <div class="panel" id="ext-panel-video">
+          <div class="panel-head">🎬 Arquivo de Vídeo (.mp4, .mov, etc.)</div>
+          <div class="panel-body">
+            <div class="field">
+              <label>Vídeo do Projeto / Rascunho</label>
+              <div class="field-row">
+                <input type="text" id="ext_video_path" placeholder="Selecione ou arraste o arquivo .mp4 para cá">
+                <button class="btn-sm" onclick="pickExtVideoFile()">📂 Escolher</button>
+              </div>
+              <span style="font-size:8.5px; color:var(--sub); display:block; margin-top:3px;">
+                💡 Dica: Você pode arrastar qualquer arquivo <b>.mp4</b> de fora diretamente para esta janela!
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODO 2: JUNTAR FALAS TTS DA FONTE (DRAFT CAPCUT) -->
+        <div class="panel" id="ext-panel-tts" style="display:none;">
+          <div class="panel-head">🎙️ Selecionar Rascunho com TTS</div>
+          <div class="panel-body">
+            <div class="field">
+              <label>Draft Recente do CapCut</label>
+              <div class="field-row">
+                <select id="ext_draft_select" onchange="onSelectExtDraft()">
+                  <option value="">Carregando rascunhos...</option>
+                </select>
+                <button class="btn-sm" onclick="loadExtDrafts()" title="Recarregar rascunhos">🔄</button>
+              </div>
+            </div>
+            <div class="field">
+              <label>Ou Caminho da Pasta do Projeto</label>
+              <div class="field-row">
+                <input type="text" id="ext_draft_path" placeholder="Caminho da pasta do draft">
+                <button class="btn-sm" onclick="pickExtDraftFolder()">📂 Escolher</button>
+              </div>
+            </div>
+
+            <div id="ext-tts-summary" style="display:none; padding:8px 10px; background:var(--panel); border:1px solid var(--border2); border-radius:6px; margin-top:8px; font-size:10px; line-height:1.6;">
+            </div>
+
+            <div style="margin-top:12px;">
+              <div class="field">
+                <label>Pausa Entre Falas (Segundos)</label>
+                <input type="number" id="ext_tts_gap" value="0.0" step="0.05" min="0">
+                <span style="font-size:8.5px; color:var(--sub); display:block; margin-top:2px;">
+                  <code>0.0s</code> para colar as falas sem pausas, ou <code>0.1s</code> a <code>0.15s</code> para respiração natural.
+                </span>
+              </div>
+
+              <div class="check-row" style="margin-top:10px;">
+                <input type="checkbox" id="ext_trim_silence" onchange="toggleExtTrimSettings()">
+                <label for="ext_trim_silence">✂️ Corte inteligente de silêncio (Trim de pontas)</label>
+              </div>
+              <div id="ext-trim-settings" style="display:none; margin: 4px 0 6px 18px; padding: 6px 9px; background: var(--panel); border: 1px solid var(--border2); border-radius: 6px;">
+                <div class="row-2">
+                  <div class="field" style="margin-bottom:0;">
+                    <label>Aparar início (s)</label>
+                    <input type="number" id="ext_trim_start" value="0.10" step="0.05" min="0">
+                  </div>
+                  <div class="field" style="margin-bottom:0;">
+                    <label>Aparar fim (s)</label>
+                    <input type="number" id="ext_trim_end" value="0.15" step="0.05" min="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODO 3: JUNTAR PASTA DE ÁUDIOS OU VÍDEOS (ORDEM ALFABÉTICA) -->
+        <div class="panel" id="ext-panel-folder" style="display:none;">
+          <div class="panel-head">📁 Selecionar Pasta com Áudios ou Vídeos (.MP4 do CapCut Online / TTS)</div>
+          <div class="panel-body">
+            <div class="field">
+              <label>Pasta com os Arquivos de Áudio ou Vídeo (.mp4)</label>
+              <div class="field-row">
+                <input type="text" id="ext_folder_path" placeholder="Selecione ou arraste uma pasta com áudios ou vídeos (.mp4) para cá" onchange="onFolderAudioPathChanged()">
+                <button class="btn-sm" onclick="pickExtAudioFolder()">📂 Escolher Pasta</button>
+                <button class="btn-sm" onclick="pickExtMultipleAudioFiles()" title="Ou selecione arquivos de áudio/vídeo individuais">🎵 Arquivos</button>
+              </div>
+              <span style="font-size:8.5px; color:var(--sub); display:block; margin-top:3px;">
+                💡 <b>Dica:</b> Perfeito para juntar partes de vídeos (<b>.mp4</b>) baixadas do <b>CapCut Online</b> ou áudios avulsos de TTS! O app extrai o áudio de cada vídeo e une tudo em ordem alfabética natural.
+              </span>
+            </div>
+
+            <!-- Resumo e Lista de Áudios Detectados em Ordem Alfabética -->
+            <div id="ext-folder-summary" style="display:none; margin-top:10px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                <span id="ext-folder-count-badge" style="font-size:10px; font-weight:700; color:var(--cyan);"></span>
+                <label style="margin-bottom:0; cursor:pointer; font-size:9px; text-transform:none; display:flex; align-items:center; gap:4px; font-weight:600;">
+                  <input type="checkbox" id="ext_folder_reverse" onchange="refreshFolderAudioList()"> Inverter Ordem (Z-A)
+                </label>
+              </div>
+
+              <!-- Lista com rolagem e visual glass -->
+              <div id="ext-folder-files-container" style="max-height:160px; overflow-y:auto; background:var(--panel); border:1px solid var(--border2); border-radius:7px; padding:6px; font-size:9.5px; font-family:'Inter',sans-serif;">
+              </div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <div class="field">
+                <label>Pausa Entre Áudios (Segundos)</label>
+                <input type="number" id="ext_folder_gap" value="0.0" step="0.05" min="0">
+                <span style="font-size:8.5px; color:var(--sub); display:block; margin-top:2px;">
+                  <code>0.0s</code> para colar as falas sem pausas, ou <code>0.1s</code> a <code>0.2s</code> para respiração natural.
+                </span>
+              </div>
+
+              <div class="check-row" style="margin-top:10px;">
+                <input type="checkbox" id="ext_folder_trim_silence" onchange="toggleFolderTrimSettings()">
+                <label for="ext_folder_trim_silence">✂️ Corte inteligente de silêncio (Trim de pontas)</label>
+              </div>
+              <div id="ext-folder-trim-settings" style="display:none; margin: 4px 0 6px 18px; padding: 6px 9px; background: var(--panel); border: 1px solid var(--border2); border-radius: 6px;">
+                <div class="row-2">
+                  <div class="field" style="margin-bottom:0;">
+                    <label>Aparar início (s)</label>
+                    <input type="number" id="ext_folder_trim_start" value="0.10" step="0.05" min="0">
+                  </div>
+                  <div class="field" style="margin-bottom:0;">
+                    <label>Aparar fim (s)</label>
+                    <input type="number" id="ext_folder_trim_end" value="0.15" step="0.05" min="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- LOG PANEL -->
+        <div class="panel">
+          <div class="panel-head">📋 Log de Processamento</div>
+          <div class="panel-body">
+            <div id="ext-log-output">Selecione o vídeo ou projeto acima para gerar o áudio.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COLUNA DIREITA -->
+      <div>
+        <div class="panel">
+          <div class="panel-head">⚙️ Configurações de Saída</div>
+          <div class="panel-body">
+
+            <label>Formato de Saída</label>
+            <div class="format-pills">
+              <div class="format-pill active" id="pill-fmt-mp3" onclick="setAudioFormat('mp3')">🟡 MP3</div>
+              <div class="format-pill" id="pill-fmt-wav" onclick="setAudioFormat('wav')">🔵 WAV (Lossless)</div>
+            </div>
+
+            <div class="field" id="wrap-bitrate">
+              <label>Qualidade do MP3 (Bitrate)</label>
+              <select id="ext_bitrate">
+                <option value="320k" selected>💎 320 kbps (Estúdio / Recomendado)</option>
+                <option value="256k">⚡ 256 kbps (Muito Alta)</option>
+                <option value="192k">🎵 192 kbps (Padrão de Streaming)</option>
+                <option value="128k">📦 128 kbps (Arquivo Leve)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Nome do Arquivo de Áudio</label>
+              <input type="text" id="ext_filename" value="narracao_master.mp3">
+            </div>
+
+            <div class="field">
+              <label>Pasta de Destino</label>
+              <div class="field-row">
+                <input type="text" id="ext_dest_folder" placeholder="Pasta onde o áudio será salvo">
+                <button class="btn-sm" onclick="pickExtDestFolder()">📂 Escolher</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <button class="btn-generate" id="btn-run-extract" onclick="doRunExtraction()">
+            ⚡ Gerar Arquivo de Áudio
+          </button>
+          <button class="btn-sm" id="btn-play-audio" style="display:none; width:100%; margin-top:8px; padding:9px; border-color:var(--cyan); color:var(--cyan);" onclick="playGeneratedAudio()">
+            ▶️ Ouvir Arquivo Gerado
+          </button>
+          <button class="btn-sm" id="btn-use-timeline" style="display:none; width:100%; margin-top:6px; padding:9px; border-color:var(--border-hover); color:var(--text);" onclick="useGeneratedAudioInTimeline()">
+            🎬 Usar no Conversor de Timeline (Aba 1)
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- FIM ABA 3 -->
+
+  </div>
+</div>
+
+<script>
+// ==========================================
+// TEMA & ARMAZENAMENTO SEGURO
+// ==========================================
+const storage = {
+  get: function(key) {
+    try { return (typeof localStorage !== 'undefined' && localStorage) ? localStorage.getItem(key) : null; } catch(e) { return null; }
+  },
+  set: function(key, val) {
+    try { if (typeof localStorage !== 'undefined' && localStorage) localStorage.setItem(key, val); } catch(e) {}
+  }
+};
+
+function initTheme() {
+  if (storage.get('capcut_conv_theme') === 'light') {
+    document.body.setAttribute('data-theme', 'light');
+    const btn = document.getElementById('theme-toggle-btn');
+    if (btn) btn.innerHTML = '🌙 Tema Escuro';
+  }
+}
+window.toggleTheme = function() {
+  const isLight = document.body.getAttribute('data-theme') === 'light';
+  const btn = document.getElementById('theme-toggle-btn');
+  if (isLight) {
+    document.body.removeAttribute('data-theme');
+    storage.set('capcut_conv_theme', 'dark');
+    if (btn) btn.innerHTML = '☀️ Tema Claro';
+  } else {
+    document.body.setAttribute('data-theme', 'light');
+    storage.set('capcut_conv_theme', 'light');
+    if (btn) btn.innerHTML = '🌙 Tema Escuro';
+  }
+}
+try { initTheme(); } catch(e) {}
+
+// ==========================================
+// TOASTS
+// ==========================================
+function dismissToast(toast) {
+  if (!toast) return;
+  toast.classList.remove('show');
+  setTimeout(() => {
+    try { toast.remove(); } catch(e) {}
+  }, 400);
+}
+
+function showToast(msg, type = 'success') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  let icon = type === 'success' ? '✅' : type === 'error' ? '❌' : '⏳';
+  toast.innerHTML = `<span class="toast-icon">${icon}</span> <div>${msg}</div>`;
+  container.appendChild(toast);
+  setTimeout(() => toast.classList.add('show'), 10);
+
+  const timeoutMs = (type === 'loading') ? 6000 : 3500;
+  const timer = setTimeout(() => {
+    dismissToast(toast);
+  }, timeoutMs);
+
+  toast.dismiss = function() {
+    clearTimeout(timer);
+    dismissToast(toast);
+  };
+
+  return toast;
+}
+
+// ==========================================
+// PROGRESSO
+// ==========================================
+let progressInterval = null;
+window.updateProgress = function(pct) {
+  if (progressInterval) {
+    clearInterval(progressInterval);
+    progressInterval = null;
+  }
+  const wrap = document.getElementById('progress-wrap');
+  const bar  = document.getElementById('progress-bar');
+  const text = document.getElementById('progress-text');
+  const ind  = document.getElementById('progress-ind');
+  if (wrap && bar && text) {
+    wrap.style.display = 'block';
+    if (ind) ind.style.display = 'none';
+    bar.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    text.textContent = `Convertendo... ${Math.round(pct)}%`;
+  }
+};
+
+function startProgress(message) {
+  const wrap = document.getElementById('progress-wrap');
+  const bar  = document.getElementById('progress-bar');
+  const text = document.getElementById('progress-text');
+  const ind  = document.getElementById('progress-ind');
+  wrap.style.display = 'block';
+  ind.style.display = 'block';
+  bar.style.width = '0%';
+  bar.style.background = 'var(--grad)';
+  text.textContent = `${message}... 0%`;
+  let pct = 0;
+  if (progressInterval) clearInterval(progressInterval);
+  progressInterval = setInterval(() => {
+    if (pct < 30) pct += 3;
+    bar.style.width = pct + '%';
+    text.textContent = `${message}... ${Math.round(pct)}%`;
+  }, 400);
+}
+function completeProgress() {
+  if (progressInterval) clearInterval(progressInterval);
+  document.getElementById('progress-bar').style.width = '100%';
+  document.getElementById('progress-text').textContent = 'Concluído! 100%';
+  document.getElementById('progress-ind').style.display = 'none';
+  setTimeout(() => { document.getElementById('progress-wrap').style.display = 'none'; }, 1200);
+}
+function failProgress() {
+  if (progressInterval) clearInterval(progressInterval);
+  const bar = document.getElementById('progress-bar');
+  bar.style.width = '100%'; bar.style.background = 'var(--red)';
+  document.getElementById('progress-text').textContent = 'Erro na conversão!';
+  document.getElementById('progress-ind').style.display = 'none';
+  setTimeout(() => {
+    document.getElementById('progress-wrap').style.display = 'none';
+    bar.style.background = 'var(--grad)';
+  }, 3000);
+}
+
+// ==========================================
+// LOG
+// ==========================================
+function logLine(text, cls) {
+  const out = document.getElementById('log-output');
+  const line = document.createElement('div');
+  if (cls) line.className = cls;
+  line.textContent = text;
+  out.appendChild(line);
+  out.scrollTop = out.scrollHeight;
+}
+function logClickableFolder(path) {
+  const out = document.getElementById('log-output');
+  const line = document.createElement('div');
+  line.className = 'link';
+  line.textContent = '📁 ' + path + '  (clique para abrir)';
+  line.onclick = () => api('open_folder', path);
+  out.appendChild(line);
+  out.scrollTop = out.scrollHeight;
+}
+function clearLog() {
+  document.getElementById('log-output').innerHTML = '';
+}
+
+// ==========================================
+// PONTE COM O PYTHON (pywebview)
+// ==========================================
+let apiReady = false;
+window.addEventListener('pywebviewready', () => { apiReady = true; onReady(); });
+
+async function api(method, ...args) {
+  if (!window.pywebview || !window.pywebview.api) {
+    showToast('Backend não conectado ainda, tente novamente.', 'error');
+    return null;
+  }
+  return await window.pywebview.api[method](...args);
+}
+
+// ==========================================
+// ÁUDIOS (linhas dinâmicas)
+// ==========================================
+let audioRowCount = 0;
+window.addAudioRow = function(name = '', volume = 1.0) {
+  const id = ++audioRowCount;
+  const row = document.createElement('div');
+  row.className = 'audio-row';
+  row.id = 'audio-row-' + id;
+  row.innerHTML = `
+    <input type="text" id="audio-name-${id}" placeholder="arquivo.mp3" value="${name}">
+    <button class="btn-sm" onclick="browseAudio(${id})">📂</button>
+    <input type="number" id="audio-vol-${id}" min="0" max="2" step="0.05" value="${volume}" title="Volume">
+    <button class="btn-remove" onclick="document.getElementById('audio-row-${id}').remove()">✕</button>
+  `;
+  document.getElementById('audio-rows').appendChild(row);
+}
+
+window.browseAudio = async function(id) {
+  try {
+    const name = await api('pick_audio_file');
+    if (name) document.getElementById('audio-name-' + id).value = name;
+  } catch (err) {
+    showToast('Erro ao abrir seletor: ' + (err.message || err), 'error');
+  }
+}
+
+function collectAudioFiles() {
+  const rows = document.querySelectorAll('.audio-row');
+  const list = [];
+  rows.forEach(r => {
+    const idNum = r.id.replace('audio-row-', '');
+    const name = document.getElementById('audio-name-' + idNum).value.trim();
+    const vol  = parseFloat(document.getElementById('audio-vol-' + idNum).value) || 1.0;
+    if (name) list.push({ name, volume: vol });
+  });
+  return list;
+}
+
+// ==========================================
+// CAMPOS / PAYLOAD
+// ==========================================
+function collectPayload() {
+  return {
+    json_path:    document.getElementById('json_path').value,
+    media_folder: document.getElementById('media_folder').value,
+    proj_name:    document.getElementById('proj_name').value.trim() || 'MeuProjeto',
+    drafts_dir:   document.getElementById('drafts_dir').value,
+    resolution:   document.getElementById('resolution').value,
+    fps:          document.getElementById('fps').value,
+    img_ext:      document.getElementById('img_ext').value,
+    audio_files:  collectAudioFiles(),
+    apply_zoom:       document.getElementById('apply_zoom').checked,
+    apply_transition: document.getElementById('apply_transition').checked,
+    apply_vhs:        document.getElementById('apply_vhs').checked,
+    apply_watermark:  document.getElementById('apply_watermark').checked,
+    zoom_threshold:   parseFloat(document.getElementById('zoom_threshold').value.replace(',', '.')) || 5.0,
+    transition_dur:   parseFloat(document.getElementById('transition_dur').value.replace(',', '.')) || 0.4667,
+    watermark_text:   document.getElementById('watermark_text').value.trim(),
+  };
+}
+
+function applyConfig(cfg) {
+  if (!cfg) return;
+  if (cfg.json_path)    document.getElementById('json_path').value = cfg.json_path;
+  if (cfg.media_folder) document.getElementById('media_folder').value = cfg.media_folder;
+  if (cfg.proj_name)    document.getElementById('proj_name').value = cfg.proj_name;
+  if (cfg.drafts_dir)   document.getElementById('drafts_dir').value = cfg.drafts_dir;
+  if (cfg.resolution)   document.getElementById('resolution').value = cfg.resolution;
+  if (cfg.fps)          document.getElementById('fps').value = String(cfg.fps);
+  if (cfg.img_ext)      document.getElementById('img_ext').value = cfg.img_ext;
+  refreshAllCustomSelects();
+  if (typeof cfg.apply_zoom === 'boolean')       document.getElementById('apply_zoom').checked = cfg.apply_zoom;
+  if (typeof cfg.apply_transition === 'boolean') document.getElementById('apply_transition').checked = cfg.apply_transition;
+  if (typeof cfg.apply_vhs === 'boolean')        document.getElementById('apply_vhs').checked = cfg.apply_vhs;
+  if (typeof cfg.apply_watermark === 'boolean')  document.getElementById('apply_watermark').checked = cfg.apply_watermark;
+  if (cfg.zoom_threshold)  document.getElementById('zoom_threshold').value = cfg.zoom_threshold;
+  if (cfg.transition_dur)  document.getElementById('transition_dur').value = cfg.transition_dur;
+  if (typeof cfg.watermark_text === 'string')  document.getElementById('watermark_text').value = cfg.watermark_text;
+
+  document.getElementById('audio-rows').innerHTML = '';
+  audioRowCount = 0;
+  if (cfg.audio_files && cfg.audio_files.length) {
+    cfg.audio_files.forEach(a => addAudioRow(a.name, a.volume));
+  } else {
+    addAudioRow();
+  }
+}
+
+// ==========================================
+// AÇÕES: escolher arquivos/pastas
+// ==========================================
+function applyJsonMeta(res) {
+  if (!res) return;
+  const path = typeof res === 'object' ? res.path : res;
+  if (path) {
+    document.getElementById('json_path').value = path;
+  }
+  if (res.auto_proj_name) {
+    document.getElementById('proj_name').value = res.auto_proj_name;
+  }
+  if (res.auto_media_folder) {
+    document.getElementById('media_folder').value = res.auto_media_folder;
+    showToast('📁 Pasta de mídias detectada automaticamente!', 'success');
+  }
+  if (res.resolution) document.getElementById('resolution').value = res.resolution;
+  if (res.fps) document.getElementById('fps').value = String(res.fps);
+  if (res.audio_files && res.audio_files.length) {
+    document.getElementById('audio-rows').innerHTML = '';
+    audioRowCount = 0;
+    res.audio_files.forEach(a => addAudioRow(a.name, a.volume));
+  }
+}
+
+window.pickJson = async function() {
+  try {
+    const res = await api('pick_json');
+    if (!res) return;
+    applyJsonMeta(res);
+    showToast('📄 JSON carregado com sucesso!', 'success');
+  } catch (err) {
+    showToast('Erro ao abrir seletor: ' + (err.message || err), 'error');
+  }
+}
+window.pickMediaFolder = async function() {
+  try {
+    const p = await api('pick_media_folder');
+    if (p) document.getElementById('media_folder').value = p;
+  } catch (err) {
+    showToast('Erro ao abrir seletor: ' + (err.message || err), 'error');
+  }
+}
+window.pickDraftsFolder = async function() {
+  try {
+    const p = await api('pick_drafts_folder');
+    if (p) {
+      document.getElementById('drafts_dir').value = p;
+      showToast('📁 Pasta de drafts salva nas configurações!', 'success');
+      if (typeof loadTtsDrafts === 'function') loadTtsDrafts();
+      if (typeof loadExtDrafts === 'function') loadExtDrafts();
+    }
+  } catch (err) {
+    showToast('Erro ao abrir seletor: ' + (err.message || err), 'error');
+  }
+};
+
+window.saveDraftsDir = async function(val) {
+  if (val && val.trim()) {
+    try {
+      const res = await api('set_drafts_dir', val.trim());
+      if (res && res.ok) {
+        showToast('📁 Pasta de drafts salva nas configurações!', 'success');
+        if (typeof loadTtsDrafts === 'function') loadTtsDrafts();
+        if (typeof loadExtDrafts === 'function') loadExtDrafts();
+      } else if (res && res.error) {
+        showToast('⚠️ ' + res.error, 'error');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+};
+
+// ==========================================
+// VALIDAR / GERAR
+// ==========================================
+window.doValidate = async function() {
+  clearLog();
+  logLine('🔍 Validando...');
+  const payload = collectPayload();
+  const logs = await api('validate', payload);
+  if (logs) logs.forEach(l => logLine(l, l.startsWith('❌') ? 'err' : (l.startsWith('✅') ? 'ok' : null)));
+}
+
+window.doConvert = async function() {
+  const btn = document.getElementById('btn-generate');
+  const payload = collectPayload();
+
+  if (!payload.json_path) {
+    showToast('⚠️ Selecione o JSON do projeto.', 'error');
+    return;
+  }
+  if (!payload.drafts_dir) {
+    showToast('⚠️ Selecione a pasta de drafts do CapCut.', 'error');
+    return;
+  }
+
+  const origHtml = btn.innerHTML;
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Gerando Draft...';
+  clearLog();
+  startProgress('Convertendo');
+
+  try {
+    const result = await api('convert', payload);
+    if (result && result.ok) {
+      completeProgress();
+      (result.logs || []).forEach(l => logLine(l, 'ok'));
+      logClickableFolder(result.dest);
+      showToast('✅ Draft gerado com sucesso!', 'success');
+    } else {
+      failProgress();
+      logLine('❌ ' + (result ? result.error : 'Erro desconhecido'), 'err');
+      showToast('❌ ' + (result ? result.error : 'Erro na conversão'), 'error');
+    }
+  } catch (e) {
+    failProgress();
+    logLine('❌ ' + e.message, 'err');
+    showToast('❌ Erro: ' + e.message, 'error');
+  } finally {
+    btn.classList.remove('btn-loading');
+    btn.disabled = false;
+    btn.innerHTML = origHtml;
+  }
+}
+
+// ==========================================
+// INICIALIZAÇÃO
+// ==========================================
+async function onReady() {
+  initCustomSelects();
+  const cfg = await api('load_config');
+  applyConfig(cfg || {});
+  refreshAllCustomSelects();
+
+  if (!document.getElementById('drafts_dir').value) {
+    const detected = await api('get_default_drafts');
+    if (detected) {
+      document.getElementById('drafts_dir').value = detected;
+      showToast('📁 Pasta de drafts detectada automaticamente.', 'success');
+    }
+  }
+  if (document.querySelectorAll('.audio-row').length === 0) addAudioRow();
+}
+
+// ==========================================
+// ABRIR CAPCUT
+// ==========================================
+window.launchCapCut = async function() {
+  const loadingToast = showToast('🚀 Abrindo CapCut...', 'loading');
+  try {
+    const res = await api('launch_capcut');
+    if (loadingToast && loadingToast.dismiss) loadingToast.dismiss();
+    if (res && res.ok) {
+      showToast('🎬 CapCut iniciado com sucesso!', 'success');
+      logLine('🚀 CapCut aberto com sucesso!');
+      logTtsLine('🚀 CapCut aberto com sucesso!');
+    } else {
+      showToast('⚠️ ' + (res ? res.error : 'CapCut não localizado.'), 'error');
+    }
+  } catch (err) {
+    if (loadingToast && loadingToast.dismiss) loadingToast.dismiss();
+    showToast('Erro ao abrir CapCut: ' + (err.message || err), 'error');
+  }
+};
+
+window.toggleTrimSettings = function() {
+  const chk = document.getElementById('tts_trim_silence');
+  const wrap = document.getElementById('trim-settings-wrap');
+  if (wrap) wrap.style.display = (chk && chk.checked) ? 'block' : 'none';
+};
+
+window.doRestoreBackup = async function() {
+  const draftFolder = document.getElementById('tts_draft_path').value.trim();
+  if (!draftFolder) {
+    showToast('⚠️ Selecione um projeto do CapCut primeiro.', 'error');
+    return;
+  }
+  if (!confirm('Deseja restaurar o backup original (.bak) deste projeto? Todas as alterações recentes de áudio serão revertidas.')) {
+    return;
+  }
+  try {
+    const res = await api('restore_backup', draftFolder);
+    if (res && res.ok) {
+      showToast('✅ Backup restaurado com sucesso!', 'success');
+      logTtsLine('↩️ Backup original (.bak) restaurado com sucesso!', 'ok');
+      inspectTtsDraft(draftFolder);
+    } else {
+      showToast('❌ ' + (res ? res.error : 'Falha ao restaurar'), 'error');
+      logTtsLine('❌ ' + (res ? res.error : 'Falha ao restaurar'), 'err');
+    }
+  } catch (err) {
+    showToast('Erro: ' + (err.message || err), 'error');
+  }
+};
+
+// ==========================================
+// ABAS & COMPACTADOR DE ÁUDIOS TTS
+// ==========================================
+window.switchTab = function(tab) {
+  document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+  if (tab === 'tts') {
+    const btn = document.getElementById('btn-tab-tts');
+    const pane = document.getElementById('pane-tts');
+    if (btn) btn.classList.add('active');
+    if (pane) pane.classList.add('active');
+    try { loadTtsDrafts(); } catch (e) { console.error(e); }
+  } else if (tab === 'extract') {
+    const btn = document.getElementById('btn-tab-extract');
+    const pane = document.getElementById('pane-extract');
+    if (btn) btn.classList.add('active');
+    if (pane) pane.classList.add('active');
+    try { initExtractTab(); } catch (e) { console.error(e); }
+  } else {
+    const btn = document.getElementById('btn-tab-converter');
+    const pane = document.getElementById('pane-converter');
+    if (btn) btn.classList.add('active');
+    if (pane) pane.classList.add('active');
+  }
+};
+
+function clearTtsLog() {
+  document.getElementById('tts-log-output').innerHTML = '';
+}
+
+function logTtsLine(text, cls = null) {
+  const el = document.getElementById('tts-log-output');
+  const d = document.createElement('div');
+  if (cls) d.className = cls;
+  d.textContent = text;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+window.loadTtsDrafts = async function() {
+  const sel = document.getElementById('tts_draft_select');
+  sel.innerHTML = '<option value="">Carregando projetos...</option>';
+  try {
+    const draftsDir = document.getElementById('drafts_dir').value || '';
+    const drafts = await api('list_drafts', draftsDir);
+    sel.innerHTML = '';
+    if (!drafts || drafts.length === 0) {
+      sel.innerHTML = '<option value="">Nenhum draft encontrado</option>';
+      return;
+    }
+    const defaultOpt = document.createElement('option');
+    defaultOpt.value = '';
+    defaultOpt.textContent = '-- Selecione um Projeto --';
+    sel.appendChild(defaultOpt);
+
+    drafts.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d.path;
+      opt.textContent = `${d.name} (${d.date})`;
+      sel.appendChild(opt);
+    });
+
+    const curPath = document.getElementById('tts_draft_path').value;
+    if (curPath) {
+      sel.value = curPath;
+    }
+  } catch (err) {
+    sel.innerHTML = '<option value="">Erro ao listar projetos</option>';
+    showToast('Erro ao carregar lista de drafts: ' + (err.message || err), 'error');
+  }
+};
+
+window.onSelectTtsDraft = function() {
+  const sel = document.getElementById('tts_draft_select');
+  const path = sel.value;
+  if (path) {
+    document.getElementById('tts_draft_path').value = path;
+    inspectTtsDraft(path);
+  }
+};
+
+window.pickTtsDraftFolder = async function() {
+  try {
+    const p = await api('pick_drafts_folder');
+    if (p) {
+      document.getElementById('tts_draft_path').value = p;
+      inspectTtsDraft(p);
+    }
+  } catch (err) {
+    showToast('Erro ao escolher pasta: ' + (err.message || err), 'error');
+  }
+};
+
+async function inspectTtsDraft(folder) {
+  const summaryPanel = document.getElementById('tts-summary-panel');
+  const summaryContent = document.getElementById('tts-summary-content');
+  const btnRestore = document.getElementById('btn-restore-bak');
+  clearTtsLog();
+  logTtsLine(`📂 Analisando projeto: ${folder}...`);
+
+  try {
+    const res = await api('inspect_draft', folder);
+    if (res && res.ok) {
+      summaryPanel.style.display = 'block';
+      let tracksInfo = (res.audio_tracks || []).map(t =>
+        `Trilha #${t.index}: <b>${t.segments} falas/clipes</b>`
+      ).join(' | ');
+
+      summaryContent.innerHTML = `
+        <div>📌 <b>Projeto:</b> ${res.name} &nbsp;|&nbsp; ⏱️ <b>Duração:</b> ${res.duration_s}s</div>
+        <div>🎵 <b>Trilhas de Áudio:</b> ${tracksInfo || 'Nenhuma'}</div>
+        <div>💬 <b>Legendas detectadas:</b> ${res.subtitles_count} blocos de texto</div>
+      `;
+
+      if (btnRestore) {
+        btnRestore.style.display = res.has_backup ? 'block' : 'none';
+      }
+
+      logTtsLine(`✅ Projeto carregado: "${res.name}"`, 'ok');
+      if (res.has_backup) {
+        logTtsLine('🔒 Backup de segurança (.bak) disponível para restauração.');
+      }
+      if (res.audio_tracks && res.audio_tracks.length > 0) {
+        const totalSegs = res.audio_tracks.reduce((acc, t) => acc + t.segments, 0);
+        logTtsLine(`🎙️ Encontrados ${totalSegs} clipes de áudio no projeto. Pronto para compactar!`, 'ok');
+      } else {
+        logTtsLine('⚠️ Nenhuma trilha de áudio com falas foi encontrada neste draft.', 'err');
+      }
+    } else {
+      summaryPanel.style.display = 'none';
+      if (btnRestore) btnRestore.style.display = 'none';
+      logTtsLine('❌ ' + (res ? res.error : 'Erro ao ler draft'), 'err');
+    }
+  } catch (err) {
+    summaryPanel.style.display = 'none';
+    if (btnRestore) btnRestore.style.display = 'none';
+    logTtsLine('❌ ' + err.message, 'err');
+  }
+}
+
+window.doCompactAudios = async function() {
+  const draftFolder = document.getElementById('tts_draft_path').value.trim();
+  if (!draftFolder) {
+    showToast('⚠️ Selecione um projeto do CapCut primeiro.', 'error');
+    return;
+  }
+
+  const gap = parseFloat(document.getElementById('tts_gap').value || '0.0');
+  const startOffset = parseFloat(document.getElementById('tts_start_offset').value || '0.0');
+  const syncSubs = document.getElementById('tts_sync_subtitles').checked;
+
+  const trimSilence = document.getElementById('tts_trim_silence').checked;
+  const trimStart = parseFloat(document.getElementById('tts_trim_start').value || '0.10');
+  const trimEnd = parseFloat(document.getElementById('tts_trim_end').value || '0.15');
+  const microFade = document.getElementById('tts_micro_fade').checked;
+
+  const btn = document.getElementById('btn-compact');
+  const origHtml = btn.innerHTML;
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+  btn.innerHTML = '⚡ Compactando Áudios...';
+  clearTtsLog();
+  logTtsLine('⚡ Compactando áudios do projeto...');
+
+  try {
+    const res = await api('compact_audios', {
+      draft_folder: draftFolder,
+      gap_seconds: gap,
+      start_offset: startOffset,
+      sync_subtitles: syncSubs,
+      track_index: -1,
+      trim_silence: trimSilence,
+      trim_start_s: trimStart,
+      trim_end_s: trimEnd,
+      micro_fade: microFade,
+      micro_fade_ms: 15.0
+    });
+
+    if (res && res.ok) {
+      logTtsLine(`✅ Sucesso! ${res.segments_count} clipes de áudio foram compactados!`, 'ok');
+      logTtsLine(`⏱️ Duração original: ${res.original_duration_s}s ➔ Nova duração: ${res.compact_duration_s}s`, 'ok');
+      logTtsLine(`✂️ Silêncio total eliminado: ${res.saved_seconds} segundos!`, 'ok');
+      if (res.trim_applied) {
+        logTtsLine('✂️ Trim inteligente de silêncio aplicado nas pontas de cada fala.', 'ok');
+      }
+      if (res.fade_applied) {
+        logTtsLine('🎚️ Micro fade anti-estalo (15ms) aplicado nas junções.', 'ok');
+      }
+      if (syncSubs && res.synced_texts > 0) {
+        logTtsLine(`💬 ${res.synced_texts} blocos de legendas foram sincronizados com as novas falas!`, 'ok');
+      }
+      logTtsLine(`🔒 Backup de segurança salvo em: ${res.backup_path}`);
+      logTtsLine('🎬 Pode abrir o CapCut! Os áudios já estão colados na timeline.', 'ok');
+      showToast('🎉 Áudios compactados com sucesso no CapCut!', 'success');
+      inspectTtsDraft(draftFolder);
+    } else {
+      logTtsLine('❌ ' + (res ? res.error : 'Erro ao compactar áudios'), 'err');
+      showToast('❌ ' + (res ? res.error : 'Falha na compactação'), 'error');
+    }
+  } catch (err) {
+    logTtsLine('❌ ' + err.message, 'err');
+    showToast('❌ ' + err.message, 'error');
+  } finally {
+    btn.classList.remove('btn-loading');
+    btn.disabled = false;
+    btn.innerHTML = origHtml;
+  }
+};
+
+// ==========================================
+// ABA 3: EXTRAIR & JUNTAR ÁUDIO (MP4 / TTS / PASTA)
+// ==========================================
+let currentExtractMode = 'video';
+let currentAudioFormat = 'mp3';
+let lastGeneratedAudioPath = '';
+let currentFolderAudioFiles = [];
+
+window.initExtractTab = function() {
+  if (!document.getElementById('ext_dest_folder').value) {
+    const mediaFld = document.getElementById('media_folder').value;
+    if (mediaFld) document.getElementById('ext_dest_folder').value = mediaFld;
+  }
+  loadExtDrafts();
+};
+
+window.setExtractMode = function(mode) {
+  currentExtractMode = mode;
+  const btnVid = document.getElementById('btn-mode-video');
+  const btnTts = document.getElementById('btn-mode-tts');
+  const btnFld = document.getElementById('btn-mode-folder');
+  const panVid = document.getElementById('ext-panel-video');
+  const panTts = document.getElementById('ext-panel-tts');
+  const panFld = document.getElementById('ext-panel-folder');
+  const btnRun = document.getElementById('btn-run-extract');
+  const fnInput = document.getElementById('ext_filename');
+
+  btnVid.classList.remove('active');
+  btnTts.classList.remove('active');
+  btnFld.classList.remove('active');
+  panVid.style.display = 'none';
+  panTts.style.display = 'none';
+  panFld.style.display = 'none';
+
+  if (mode === 'video') {
+    btnVid.classList.add('active');
+    panVid.style.display = 'block';
+    if (btnRun) btnRun.innerHTML = '⚡ Extrair Áudio do Vídeo';
+  } else if (mode === 'tts') {
+    btnTts.classList.add('active');
+    panTts.style.display = 'block';
+    if (btnRun) btnRun.innerHTML = '⚡ Juntar Falas do CapCut';
+    loadExtDrafts();
+  } else if (mode === 'folder') {
+    btnFld.classList.add('active');
+    panFld.style.display = 'block';
+    if (btnRun) btnRun.innerHTML = '⚡ Juntar Todos os Áudios';
+    if (fnInput && (!fnInput.value || fnInput.value.startsWith('narracao_') || fnInput.value.startsWith('video_'))) {
+      fnInput.value = `narracao_unificada.${currentAudioFormat}`;
+    }
+    const curFld = document.getElementById('ext_folder_path').value.trim();
+    if (curFld) inspectExtAudioFolder(curFld);
+  }
+};
+
+window.setAudioFormat = function(fmt) {
+  currentAudioFormat = fmt;
+  const pillMp3 = document.getElementById('pill-fmt-mp3');
+  const pillWav = document.getElementById('pill-fmt-wav');
+  const wrapBr = document.getElementById('wrap-bitrate');
+  const fnInput = document.getElementById('ext_filename');
+
+  let curFn = fnInput.value.trim() || 'narracao_master';
+  if (fmt === 'mp3') {
+    pillMp3.classList.add('active');
+    pillWav.classList.remove('active');
+    if (wrapBr) wrapBr.style.display = 'block';
+    fnInput.value = curFn.replace(/\.wav$/i, '') + '.mp3';
+  } else {
+    pillWav.classList.add('active');
+    pillMp3.classList.remove('active');
+    if (wrapBr) wrapBr.style.display = 'none';
+    fnInput.value = curFn.replace(/\.mp3$/i, '') + '.wav';
+  }
+};
+
+function clearExtLog() {
+  document.getElementById('ext-log-output').innerHTML = '';
+}
+
+function logExtLine(text, cls = null) {
+  const el = document.getElementById('ext-log-output');
+  const d = document.createElement('div');
+  if (cls) d.className = cls;
+  d.textContent = text;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+window.toggleExtTrimSettings = function() {
+  const chk = document.getElementById('ext_trim_silence');
+  const wrap = document.getElementById('ext-trim-settings');
+  if (wrap) wrap.style.display = (chk && chk.checked) ? 'block' : 'none';
+};
+
+window.toggleFolderTrimSettings = function() {
+  const chk = document.getElementById('ext_folder_trim_silence');
+  const wrap = document.getElementById('ext-folder-trim-settings');
+  if (wrap) wrap.style.display = (chk && chk.checked) ? 'block' : 'none';
+};
+
+window.pickExtVideoFile = async function() {
+  try {
+    const file = await api('pick_video_file');
+    if (file) {
+      document.getElementById('ext_video_path').value = file;
+      const parts = file.replace(/\\/g, '/').split('/');
+      const fileName = parts[parts.length - 1];
+      const folder = parts.slice(0, parts.length - 1).join('/');
+      const stem = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+
+      document.getElementById('ext_filename').value = `${stem}.${currentAudioFormat}`;
+      if (!document.getElementById('ext_dest_folder').value) {
+        document.getElementById('ext_dest_folder').value = folder;
+      }
+      clearExtLog();
+      logExtLine(`🎬 Vídeo selecionado: ${fileName}`, 'ok');
+      showToast('🎬 Vídeo selecionado!', 'success');
+    }
+  } catch (err) {
+    showToast('Erro ao selecionar vídeo: ' + (err.message || err), 'error');
+  }
+};
+
+window.pickExtDraftFolder = async function() {
+  try {
+    const p = await api('pick_drafts_folder');
+    if (p) {
+      document.getElementById('ext_draft_path').value = p;
+      inspectExtDraft(p);
+    }
+  } catch (err) {
+    showToast('Erro ao escolher pasta: ' + (err.message || err), 'error');
+  }
+};
+
+window.pickExtAudioFolder = async function() {
+  try {
+    const p = await api('pick_folder_audios');
+    if (p) {
+      document.getElementById('ext_folder_path').value = p;
+      if (!document.getElementById('ext_dest_folder').value) {
+        document.getElementById('ext_dest_folder').value = p;
+      }
+      await inspectExtAudioFolder(p);
+    }
+  } catch (err) {
+    showToast('Erro ao escolher pasta: ' + (err.message || err), 'error');
+  }
+};
+
+window.pickExtMultipleAudioFiles = async function() {
+  try {
+    const files = await api('pick_multiple_audios');
+    if (files && files.length > 0) {
+      const parts0 = files[0].replace(/\\/g, '/').split('/');
+      const firstFolder = parts0.slice(0, parts0.length - 1).join('/');
+      document.getElementById('ext_folder_path').value = firstFolder;
+      if (!document.getElementById('ext_dest_folder').value) {
+        document.getElementById('ext_dest_folder').value = firstFolder;
+      }
+      await inspectExtAudioFolder(firstFolder);
+    }
+  } catch (err) {
+    showToast('Erro ao escolher arquivos: ' + (err.message || err), 'error');
+  }
+};
+
+window.onFolderAudioPathChanged = function() {
+  const p = document.getElementById('ext_folder_path').value.trim();
+  if (p) {
+    if (!document.getElementById('ext_dest_folder').value) {
+      document.getElementById('ext_dest_folder').value = p;
+    }
+    inspectExtAudioFolder(p);
+  }
+};
+
+window.inspectExtAudioFolder = async function(folder) {
+  const sumWrap = document.getElementById('ext-folder-summary');
+  const badge = document.getElementById('ext-folder-count-badge');
+  const listCont = document.getElementById('ext-folder-files-container');
+  clearExtLog();
+  logExtLine(`📁 Analisando arquivos da pasta: ${folder}...`);
+
+  try {
+    const res = await api('inspect_audio_folder', folder);
+    if (res && res.ok) {
+      currentFolderAudioFiles = res.files || [];
+      if (currentFolderAudioFiles.length === 0) {
+        sumWrap.style.display = 'block';
+        badge.textContent = '⚠️ Nenhum arquivo de áudio ou vídeo encontrado nesta pasta';
+        badge.style.color = 'var(--red)';
+        listCont.innerHTML = '<div style="color:var(--sub); padding:8px; text-align:center;">Formatos suportados: .mp4, .mov, .mkv, .webm, .mp3, .wav, .m4a, .aac, .ogg, .flac</div>';
+        logExtLine('⚠️ Nenhum arquivo de áudio ou vídeo detectado (.mp4, .mp3, .wav, etc.).', 'err');
+        return;
+      }
+
+      sumWrap.style.display = 'block';
+      badge.style.color = 'var(--cyan)';
+
+      let badgeIcon = '🎵';
+      let badgeLabel = 'áudios';
+      if (res.video_count > 0 && res.audio_count === 0) {
+        badgeIcon = '🎬';
+        badgeLabel = 'partes de vídeo (.mp4)';
+      } else if (res.video_count > 0 && res.audio_count > 0) {
+        badgeIcon = '🎬🎵';
+        badgeLabel = `arquivos (${res.video_count} vídeos, ${res.audio_count} áudios)`;
+      }
+      badge.textContent = `${badgeIcon} ${res.total_count} ${badgeLabel} encontrados (${res.total_duration_formatted} | ~${res.total_size_mb} MB)`;
+
+      refreshFolderAudioList();
+
+      logExtLine(`✅ Encontrados ${res.total_count} arquivos em ordem alfabética natural!`, 'ok');
+      if (res.video_count > 0) {
+        logExtLine(`🎬 ${res.video_count} vídeos detectados (o áudio será extraído e costurado automaticamente)`, 'ok');
+      }
+      logExtLine(`⏱️ Duração total do áudio: ~${res.total_duration_formatted} (~${res.total_size_mb} MB)`, 'ok');
+
+      const parts = folder.replace(/\\/g, '/').split('/');
+      const folderName = parts[parts.length - 1] || 'unificado';
+      const cleanName = folderName.replace(/[^a-zA-Z0-9_\-]/g, '_');
+      document.getElementById('ext_filename').value = `narracao_${cleanName}.${currentAudioFormat}`;
+    } else {
+      sumWrap.style.display = 'none';
+      logExtLine('❌ ' + (res ? res.error : 'Erro ao ler pasta'), 'err');
+    }
+  } catch (err) {
+    sumWrap.style.display = 'none';
+    logExtLine('❌ ' + err.message, 'err');
+  }
+};
+
+window.refreshFolderAudioList = function() {
+  const listCont = document.getElementById('ext-folder-files-container');
+  if (!listCont) return;
+  const isReverse = document.getElementById('ext_folder_reverse') && document.getElementById('ext_folder_reverse').checked;
+  const filesToDisplay = [...currentFolderAudioFiles];
+  if (isReverse) filesToDisplay.reverse();
+
+  listCont.innerHTML = filesToDisplay.map((f, idx) => `
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:4px 8px; margin-bottom:3px; background:rgba(255,255,255,0.03); border-radius:5px; border:1px solid var(--border2);">
+      <div style="display:flex; align-items:center; gap:7px; overflow:hidden;">
+        <span style="font-weight:700; color:var(--cyan); font-size:9px; min-width:18px;">[${idx + 1}]</span>
+        <span style="font-size:10px;">${f.is_video ? '🎬' : '🎵'}</span>
+        <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text); font-weight:500;">${f.name}</span>
+      </div>
+      <span style="color:var(--sub); font-size:8.5px; white-space:nowrap; margin-left:8px;">${f.duration_formatted} (${f.size_mb} MB)</span>
+    </div>
+  `).join('');
+};
+
+window.useGeneratedAudioInTimeline = function() {
+  if (!lastGeneratedAudioPath) return;
+  const parts = lastGeneratedAudioPath.replace(/\\/g, '/').split('/');
+  const fileName = parts[parts.length - 1];
+  const folder = parts.slice(0, parts.length - 1).join('/');
+
+  if (!document.getElementById('media_folder').value) {
+    document.getElementById('media_folder').value = folder;
+  }
+
+  addAudioRow(fileName);
+  switchTab('converter');
+  showToast(`🎬 Áudio "${fileName}" enviado para a Timeline!`, 'success');
+};
+
+window.pickExtDestFolder = async function() {
+  try {
+    const p = await api('pick_audio_dest_folder');
+    if (p) document.getElementById('ext_dest_folder').value = p;
+  } catch (err) {
+    showToast('Erro ao escolher pasta: ' + (err.message || err), 'error');
+  }
+};
+
+window.loadExtDrafts = async function() {
+  const sel = document.getElementById('ext_draft_select');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">Carregando projetos...</option>';
+  try {
+    const draftsDir = document.getElementById('drafts_dir').value || '';
+    const drafts = await api('list_drafts', draftsDir);
+    sel.innerHTML = '';
+    if (!drafts || drafts.length === 0) {
+      sel.innerHTML = '<option value="">Nenhum draft encontrado</option>';
+      return;
+    }
+    const defaultOpt = document.createElement('option');
+    defaultOpt.value = '';
+    defaultOpt.textContent = '-- Selecione um Projeto --';
+    sel.appendChild(defaultOpt);
+
+    drafts.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d.path;
+      opt.textContent = `${d.name} (${d.date})`;
+      sel.appendChild(opt);
+    });
+
+    const curPath = document.getElementById('ext_draft_path').value;
+    if (curPath) {
+      sel.value = curPath;
+    }
+  } catch (err) {
+    sel.innerHTML = '<option value="">Erro ao listar projetos</option>';
+  }
+};
+
+window.onSelectExtDraft = function() {
+  const sel = document.getElementById('ext_draft_select');
+  const path = sel.value;
+  if (path) {
+    document.getElementById('ext_draft_path').value = path;
+    inspectExtDraft(path);
+  }
+};
+
+async function inspectExtDraft(folder) {
+  const sumBox = document.getElementById('ext-tts-summary');
+  clearExtLog();
+  logExtLine(`📂 Analisando rascunho: ${folder}...`);
+  try {
+    const res = await api('inspect_draft_extraction', folder);
+    if (res && res.ok) {
+      sumBox.style.display = 'block';
+      sumBox.innerHTML = `
+        <div>📌 <b>Projeto:</b> ${res.name}</div>
+        <div>🎙️ <b>Falas TTS encontradas:</b> <b>${res.tts_count} clipes</b> (~${res.tts_duration_s}s)</div>
+        <div>🎬 <b>Vídeos .MP4 encontrados no draft:</b> ${res.video_files.length}</div>
+      `;
+
+      if (res.has_tts) {
+        logExtLine(`✅ Encontradas ${res.tts_count} falas de narração no projeto (${res.tts_duration_s}s)!`, 'ok');
+      } else {
+        logExtLine('⚠️ Nenhuma narração TTS detectada nas trilhas deste projeto.', 'err');
+      }
+
+      if (res.video_files && res.video_files.length > 0) {
+        if (!document.getElementById('ext_video_path').value) {
+          document.getElementById('ext_video_path').value = res.video_files[0];
+        }
+        logExtLine(`💡 Vídeo do projeto disponível para o Modo 1: ${res.video_files[0]}`);
+      }
+
+      const stem = res.name.replace(/[^a-zA-Z0-9_\-]/g, '_');
+      document.getElementById('ext_filename').value = `narracao_${stem}.${currentAudioFormat}`;
+      if (!document.getElementById('ext_dest_folder').value) {
+        document.getElementById('ext_dest_folder').value = folder;
+      }
+    } else {
+      sumBox.style.display = 'none';
+      logExtLine('❌ ' + (res ? res.error : 'Erro ao analisar draft'), 'err');
+    }
+  } catch (err) {
+    sumBox.style.display = 'none';
+    logExtLine('❌ ' + err.message, 'err');
+  }
+}
+
+window.doRunExtraction = async function() {
+  const btn = document.getElementById('btn-run-extract');
+  const btnPlay = document.getElementById('btn-play-audio');
+  const btnTimeline = document.getElementById('btn-use-timeline');
+  btnPlay.style.display = 'none';
+  if (btnTimeline) btnTimeline.style.display = 'none';
+
+  clearExtLog();
+  const destFolder = document.getElementById('ext_dest_folder').value.trim();
+  const filename = document.getElementById('ext_filename').value.trim() || `narracao.${currentAudioFormat}`;
+
+  if (!destFolder) {
+    showToast('⚠️ Informe a pasta de destino para salvar o áudio.', 'error');
+    return;
+  }
+
+  const cleanDest = destFolder.replace(/\\/g, '/').replace(/\/+$/, '');
+  const cleanFn = filename.replace(/[\\/]/g, '_');
+  const fullOut = `${cleanDest}/${cleanFn}`;
+
+  const bitrate = document.getElementById('ext_bitrate').value;
+
+  if (currentExtractMode === 'video') {
+    const vidPath = document.getElementById('ext_video_path').value.trim();
+    if (!vidPath) {
+      showToast('⚠️ Selecione um arquivo de vídeo (.mp4).', 'error');
+      return;
+    }
+  } else if (currentExtractMode === 'tts') {
+    const draftFld = document.getElementById('ext_draft_path').value.trim();
+    if (!draftFld) {
+      showToast('⚠️ Selecione a pasta do rascunho com o TTS.', 'error');
+      return;
+    }
+  } else if (currentExtractMode === 'folder') {
+    const folderPath = document.getElementById('ext_folder_path').value.trim();
+    if (!folderPath && (!currentFolderAudioFiles || currentFolderAudioFiles.length === 0)) {
+      showToast('⚠️ Selecione a pasta contendo os arquivos de áudio.', 'error');
+      return;
+    }
+  }
+
+  const origHtml = btn.innerHTML;
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+  btn.innerHTML = currentExtractMode === 'video' ? '🎬 Extraindo Áudio...' : (currentExtractMode === 'tts' ? '🎵 Juntando Falas TTS...' : '📁 Juntando e Extraindo Áudio...');
+
+  try {
+    if (currentExtractMode === 'video') {
+      const vidPath = document.getElementById('ext_video_path').value.trim();
+      logExtLine(`🎬 Extraindo áudio de: ${vidPath}...`);
+      logExtLine(`⚙️ Formato: ${currentAudioFormat.toUpperCase()} ${currentAudioFormat === 'mp3' ? '(' + bitrate + ')' : '(Lossless)'}`);
+
+      const res = await api('extract_video_audio', {
+        video_path: vidPath,
+        output_path: fullOut,
+        format: currentAudioFormat,
+        bitrate: bitrate
+      });
+
+      if (res && res.ok) {
+        lastGeneratedAudioPath = res.output_path;
+        logExtLine('✅ Áudio extraído com sucesso absoluto!', 'ok');
+        logExtLine(`💾 Tamanho final: ${res.size_mb} MB`, 'ok');
+        logClickableFolder(cleanDest);
+        showToast('🎉 Áudio extraído com sucesso!', 'success');
+        btnPlay.style.display = 'block';
+        if (btnTimeline) btnTimeline.style.display = 'block';
+      } else {
+        logExtLine('❌ ' + (res ? res.error : 'Falha ao extrair áudio'), 'err');
+        showToast('❌ ' + (res ? res.error : 'Falha na extração'), 'error');
+      }
+    } else if (currentExtractMode === 'tts') {
+      // Modo TTS Draft
+      const draftFld = document.getElementById('ext_draft_path').value.trim();
+
+      const gap = parseFloat(document.getElementById('ext_tts_gap').value || '0.0');
+      const trimSil = document.getElementById('ext_trim_silence').checked;
+      const trimS = parseFloat(document.getElementById('ext_trim_start').value || '0.10');
+      const trimE = parseFloat(document.getElementById('ext_trim_end').value || '0.15');
+
+      logExtLine(`🎙️ Juntando falas TTS do projeto: ${draftFld}...`);
+      logExtLine(`⚙️ Formato: ${currentAudioFormat.toUpperCase()} | Pausa: ${gap}s | Trim: ${trimSil ? 'Sim ('+trimS+'s/'+trimE+'s)' : 'Não'}`);
+
+      const res = await api('stitch_tts_audio', {
+        draft_folder: draftFld,
+        output_path: fullOut,
+        format: currentAudioFormat,
+        bitrate: bitrate,
+        gap_seconds: gap,
+        trim_silence: trimSil,
+        trim_start_s: trimS,
+        trim_end_s: trimE
+      });
+
+      if (res && res.ok) {
+        lastGeneratedAudioPath = res.output_path;
+        logExtLine(`✅ Sucesso! ${res.segments_count} falas foram costuradas em sequência!`, 'ok');
+        logExtLine(`💾 Arquivo gerado: ${cleanFn} (${res.size_mb} MB)`, 'ok');
+        logClickableFolder(cleanDest);
+        showToast('🎉 Narração completa gerada com sucesso!', 'success');
+        btnPlay.style.display = 'block';
+        if (btnTimeline) btnTimeline.style.display = 'block';
+      } else {
+        logExtLine('❌ ' + (res ? res.error : 'Falha ao costurar áudios'), 'err');
+        showToast('❌ ' + (res ? res.error : 'Falha ao juntar áudios'), 'error');
+      }
+    } else if (currentExtractMode === 'folder') {
+      // Modo 3: Pasta de Áudios ou Vídeos (.mp4) Alfabética
+      const folderPath = document.getElementById('ext_folder_path').value.trim();
+      const gap = parseFloat(document.getElementById('ext_folder_gap').value || '0.0');
+      const trimSil = document.getElementById('ext_folder_trim_silence').checked;
+      const trimS = parseFloat(document.getElementById('ext_folder_trim_start').value || '0.10');
+      const trimE = parseFloat(document.getElementById('ext_folder_trim_end').value || '0.15');
+      const reverse = document.getElementById('ext_folder_reverse').checked;
+
+      logExtLine(`📁 Processando e costurando arquivos da pasta: ${folderPath || 'Arquivos selecionados'}...`);
+      logExtLine(`⚙️ Ordem: ${reverse ? 'Invertida (Z-A)' : 'Alfabética Natural (1, 2, ..., 10)'} | Formato: ${currentAudioFormat.toUpperCase()} | Pausa: ${gap}s | Trim: ${trimSil ? 'Sim ('+trimS+'s/'+trimE+'s)' : 'Não'}`);
+
+      const res = await api('stitch_audio_folder', {
+        folder_path: folderPath,
+        file_paths: currentFolderAudioFiles && currentFolderAudioFiles.length > 0 ? currentFolderAudioFiles.map(f => f.path) : [],
+        output_path: fullOut,
+        format: currentAudioFormat,
+        bitrate: bitrate,
+        gap_seconds: gap,
+        trim_silence: trimSil,
+        trim_start_s: trimS,
+        trim_end_s: trimE,
+        reverse_order: reverse
+      });
+
+      if (res && res.ok) {
+        lastGeneratedAudioPath = res.output_path;
+        logExtLine(`✅ Sucesso absoluto! Áudio extraído e combinado de ${res.files_count} arquivos em ordem alfabética!`, 'ok');
+        logExtLine(`💾 Arquivo gerado: ${cleanFn} (${res.size_mb} MB | ~${res.duration_s}s)`, 'ok');
+        logClickableFolder(cleanDest);
+        showToast('🎉 Todos os áudios foram unidos com sucesso!', 'success');
+        btnPlay.style.display = 'block';
+        if (btnTimeline) btnTimeline.style.display = 'block';
+      } else {
+        logExtLine('❌ ' + (res ? res.error : 'Falha ao processar arquivos da pasta'), 'err');
+        showToast('❌ ' + (res ? res.error : 'Falha ao processar arquivos'), 'error');
+      }
+    }
+  } catch (err) {
+    logExtLine('❌ ' + err.message, 'err');
+    showToast('❌ Erro: ' + err.message, 'error');
+  } finally {
+    btn.classList.remove('btn-loading');
+    btn.disabled = false;
+    btn.innerHTML = origHtml;
+  }
+};
+
+window.playGeneratedAudio = async function() {
+  if (lastGeneratedAudioPath) {
+    try {
+      await api('open_file', lastGeneratedAudioPath);
+    } catch (e) {
+      showToast('Erro ao abrir áudio: ' + (e.message || e), 'error');
+    }
+  }
+};
+
+// ==========================================
+// ARRASTAR E SOLTAR (DRAG & DROP)
+// ==========================================
+let dragCounter = 0;
+window.addEventListener('dragenter', (e) => {
+  e.preventDefault();
+  dragCounter++;
+  const overlay = document.getElementById('drop-overlay');
+  if (overlay) overlay.style.display = 'flex';
+});
+window.addEventListener('dragover', (e) => {
+  e.preventDefault();
+});
+window.addEventListener('dragleave', (e) => {
+  e.preventDefault();
+  dragCounter--;
+  if (dragCounter <= 0) {
+    dragCounter = 0;
+    const overlay = document.getElementById('drop-overlay');
+    if (overlay) overlay.style.display = 'none';
+  }
+});
+window.addEventListener('drop', async (e) => {
+  e.preventDefault();
+  dragCounter = 0;
+  const overlay = document.getElementById('drop-overlay');
+  if (overlay) overlay.style.display = 'none';
+
+  let droppedPath = '';
+  if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+    const file = e.dataTransfer.files[0];
+    droppedPath = file.path || '';
+  }
+  if (!droppedPath && e.dataTransfer) {
+    droppedPath = e.dataTransfer.getData('text/plain') || '';
+  }
+
+  if (!droppedPath) return;
+
+  try {
+    const res = await api('handle_drop_path', droppedPath);
+    if (!res || res.type === 'none') {
+      showToast('Arquivo ou pasta não reconhecido.', 'error');
+      return;
+    }
+    if (res.type === 'json') {
+      applyJsonMeta(res.data);
+      switchTab('converter');
+      showToast('📄 JSON carregado com sucesso via Arrastar & Soltar!', 'success');
+    } else if (res.type === 'draft') {
+      switchTab('tts');
+      document.getElementById('tts_draft_path').value = res.path;
+      inspectTtsDraft(res.path);
+      showToast('📂 Projeto CapCut carregado!', 'success');
+    } else if (res.type === 'video') {
+      switchTab('extract');
+      setExtractMode('video');
+      document.getElementById('ext_video_path').value = res.path;
+      const parts = res.path.split('/');
+      const fileName = parts[parts.length - 1];
+      const folder = parts.slice(0, parts.length - 1).join('/');
+      const stem = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+      document.getElementById('ext_filename').value = `${stem}.${currentAudioFormat}`;
+      if (!document.getElementById('ext_dest_folder').value) {
+        document.getElementById('ext_dest_folder').value = folder;
+      }
+      clearExtLog();
+      logExtLine(`🎬 Vídeo carregado: ${fileName}`, 'ok');
+      showToast('🎬 Vídeo carregado na aba Extrair Áudio!', 'success');
+    } else if (res.type === 'folder') {
+      const activeTabBtn = document.querySelector('.nav-tab-btn.active');
+      const isExtractTab = activeTabBtn && activeTabBtn.id === 'btn-tab-extract';
+      if (isExtractTab && currentExtractMode === 'folder') {
+        document.getElementById('ext_folder_path').value = res.path;
+        if (!document.getElementById('ext_dest_folder').value) {
+          document.getElementById('ext_dest_folder').value = res.path;
+        }
+        inspectExtAudioFolder(res.path);
+        showToast('📁 Pasta de áudios carregada no Juntador!', 'success');
+      } else {
+        document.getElementById('media_folder').value = res.path;
+        switchTab('converter');
+        showToast('📁 Pasta de mídias preenchida!', 'success');
+      }
+    } else if (res.type === 'audio') {
+      addAudioRow(res.name);
+      switchTab('converter');
+      showToast(`🎵 Áudio "${res.name}" adicionado!`, 'success');
+    }
+  } catch (err) {
+    showToast('Erro ao processar item arrastado: ' + (err.message || err), 'error');
+  }
+});
+
+// ── Upgrader de Select para Dropdown Customizado em Vidro ──
+function upgradeSelect(selectEl) {
+  if (!selectEl || selectEl.getAttribute('data-customized')) return;
+  selectEl.setAttribute('data-customized', 'true');
+  selectEl.style.display = 'none';
+
+  const wrap = document.createElement('div');
+  wrap.className = 'custom-select-wrap';
+  if (selectEl.id) {
+    wrap.setAttribute('data-for-id', selectEl.id);
+  }
+
+  const trigger = document.createElement('div');
+  trigger.className = 'custom-select-trigger';
+  trigger.setAttribute('tabindex', '0');
+
+  const label = document.createElement('span');
+  label.className = 'custom-select-label';
+
+  const arrow = document.createElement('span');
+  arrow.className = 'custom-select-arrow';
+
+  trigger.appendChild(label);
+  trigger.appendChild(arrow);
+  wrap.appendChild(trigger);
+
+  const menu = document.createElement('div');
+  menu.className = 'custom-select-menu';
+  wrap.appendChild(menu);
+
+  function syncFromSelect() {
+    menu.innerHTML = '';
+    const selectedOpt = selectEl.options[selectEl.selectedIndex];
+    label.textContent = selectedOpt ? selectedOpt.textContent : '';
+
+    Array.from(selectEl.options).forEach((opt, idx) => {
+      const item = document.createElement('div');
+      item.className = 'custom-select-item' + (idx === selectEl.selectedIndex ? ' selected' : '');
+      item.textContent = opt.textContent;
+      item.setAttribute('data-value', opt.value);
+
+      item.onclick = (e) => {
+        e.stopPropagation();
+        selectEl.selectedIndex = idx;
+        label.textContent = opt.textContent;
+        menu.querySelectorAll('.custom-select-item').forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+        wrap.classList.remove('open');
+        wrap.classList.remove('open-up');
+        const p = wrap.closest('.panel');
+        if (p) p.style.zIndex = '';
+        selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+      };
+      menu.appendChild(item);
+    });
+  }
+
+  selectEl._syncCustomSelect = syncFromSelect;
+  syncFromSelect();
+
+  trigger.onclick = (e) => {
+    e.stopPropagation();
+    const isOpen = wrap.classList.contains('open');
+    document.querySelectorAll('.custom-select-wrap.open').forEach(w => {
+      w.classList.remove('open');
+      w.classList.remove('open-up');
+      const p = w.closest('.panel');
+      if (p) p.style.zIndex = '';
+    });
+    if (!isOpen) {
+      // Eleva o card pai para garantir que o menu flutue por cima de todos os blocos seguintes
+      const p = wrap.closest('.panel');
+      if (p) p.style.zIndex = '500';
+
+      // Detecta se há espaço abaixo ou se deve abrir para cima
+      const rect = trigger.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if (spaceBelow < 180 && rect.top > 180) {
+        wrap.classList.add('open-up');
+      } else {
+        wrap.classList.remove('open-up');
+      }
+
+      wrap.classList.add('open');
+      const selItem = menu.querySelector('.custom-select-item.selected');
+      if (selItem) {
+        selItem.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  };
+
+  selectEl.parentNode.insertBefore(wrap, selectEl.nextSibling);
+
+  // Observa mudanças nas opções dos selects (ex: quando carregados dinamicamente via backend)
+  const observer = new MutationObserver(() => syncFromSelect());
+  observer.observe(selectEl, { childList: true });
+
+  selectEl.addEventListener('change', () => {
+    const selectedOpt = selectEl.options[selectEl.selectedIndex];
+    if (selectedOpt) {
+      label.textContent = selectedOpt.textContent;
+      menu.querySelectorAll('.custom-select-item').forEach((item, idx) => {
+        item.classList.toggle('selected', idx === selectEl.selectedIndex);
+      });
+    }
+  });
+}
+
+function initCustomSelects() {
+  document.querySelectorAll('select').forEach(upgradeSelect);
+}
+
+function refreshAllCustomSelects() {
+  document.querySelectorAll('select').forEach(s => {
+    if (s._syncCustomSelect) s._syncCustomSelect();
+  });
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.custom-select-wrap')) {
+    document.querySelectorAll('.custom-select-wrap.open').forEach(w => {
+      w.classList.remove('open');
+      w.classList.remove('open-up');
+      const p = w.closest('.panel');
+      if (p) p.style.zIndex = '';
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  initCustomSelects();
+  // fallback: se pywebviewready já tiver disparado antes do listener
+  if (window.pywebview && window.pywebview.api && !apiReady) {
+    apiReady = true;
+    onReady();
+  }
+});
+</script>
+</body>
+</html>
